@@ -1,1 +1,4 @@
 project_id = "aznouacxayahvisuczie"
+
+[functions.job-scraper]
+verify_jwt = false
