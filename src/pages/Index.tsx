@@ -10,7 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
 import Footer from '@/components/Footer';
-
+   
 interface Job {
   id: string;
   title: string;
@@ -239,24 +239,24 @@ const Index = () => {
       <section className="py-12 px-4">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold text-foreground mb-4">
-            Find Your Dream Job in South Africa
+            Africa's Premier Job Discovery & Career Management Platform
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Discover high-quality job opportunities from top employers across LinkedIn, Indeed, Glassdoor, and more.
+            Discover the most highly sought after, expertly curated job opportunities offered by world-class, verified companies, employers and recruiters looking for talent across Africa.
           </p>
           
           <div className="flex flex-wrap justify-center gap-6 mb-8">
             <div className="flex items-center gap-2">
               <Briefcase className="h-5 w-5 text-primary" />
-              <span className="font-medium">{jobs.length}+ Active Jobs</span>
+              <span className="font-medium">{jobs.length}+ New Jobs Listed Today</span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="h-5 w-5 text-primary" />
-              <span className="font-medium">Top SA Companies</span>
+              <span className="font-medium">Verified Companies Only</span>
             </div>
             <div className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-primary" />
-              <span className="font-medium">Daily Updates</span>
+              <span className="font-medium">New Jobs Posted Every Day</span>
             </div>
           </div>
         </div>
@@ -267,7 +267,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Featured Companies Hiring Now
+              Featured Companies
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Discover career opportunities with top employers across South Africa and Nigeria
