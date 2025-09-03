@@ -8,7 +8,8 @@ import { JobCard } from '@/components/JobCard';
 import { JobFilters, type JobFilters as JobFiltersType } from '@/components/JobFilters';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap } from 'lucide-react';
+import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 interface Job {
   id: string;
@@ -321,6 +322,223 @@ const Index = () => {
           </main>
         </div>
       </div>
+
+      {/* Jobbyist Pro Section */}
+      <section className="py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full mb-6">
+              <Crown className="h-5 w-5" />
+              <span className="font-semibold">Premium Service</span>
+            </div>
+            
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+              Accelerate Your Career with Jobbyist Pro
+            </h2>
+            
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Get priority access to exclusive jobs, personalized career coaching, and advanced application tracking for just R99/month.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-background/80 backdrop-blur-sm border rounded-lg p-6">
+                <Crown className="h-8 w-8 text-primary mb-4 mx-auto" />
+                <h3 className="font-semibold mb-2">Exclusive Jobs</h3>
+                <p className="text-muted-foreground text-sm">Access premium job listings not available to free users</p>
+              </div>
+              
+              <div className="bg-background/80 backdrop-blur-sm border rounded-lg p-6">
+                <CheckCircle className="h-8 w-8 text-primary mb-4 mx-auto" />
+                <h3 className="font-semibold mb-2">Priority Applications</h3>
+                <p className="text-muted-foreground text-sm">Your applications are highlighted to employers</p>
+              </div>
+              
+              <div className="bg-background/80 backdrop-blur-sm border rounded-lg p-6">
+                <Users className="h-8 w-8 text-primary mb-4 mx-auto" />
+                <h3 className="font-semibold mb-2">Career Coaching</h3>
+                <p className="text-muted-foreground text-sm">One-on-one sessions with career experts</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button size="lg" className="text-lg px-8">
+                Start Free Trial
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                7-day free trial • Cancel anytime • R99/month
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ResumeAudit Section */}
+      <section className="py-16 bg-gradient-to-r from-secondary/10 via-background to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 bg-secondary/20 text-secondary-foreground px-4 py-2 rounded-full mb-6">
+                  <FileText className="h-5 w-5" />
+                  <span className="font-semibold">100% Free Tool</span>
+                </div>
+                
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                  Get Your Resume Professionally Audited
+                </h2>
+                
+                <p className="text-xl text-muted-foreground mb-6">
+                  Our AI-powered ResumeAudit tool analyzes your resume and provides actionable feedback to help you land more interviews.
+                </p>
+
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-muted-foreground">ATS compatibility check</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-muted-foreground">Keyword optimization suggestions</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-muted-foreground">Format and design recommendations</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-muted-foreground">Industry-specific feedback</span>
+                  </div>
+                </div>
+
+                <Button size="lg" variant="outline" className="text-lg px-8">
+                  <FileText className="h-5 w-5 mr-2" />
+                  Audit My Resume - Free
+                </Button>
+              </div>
+
+              <div className="bg-background/50 border rounded-lg p-8 text-center">
+                <div className="bg-primary/10 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                  <FileText className="h-10 w-10 text-primary" />
+                </div>
+                
+                <h3 className="text-xl font-semibold mb-4">Upload Your Resume</h3>
+                <p className="text-muted-foreground mb-6">
+                  Drag & drop your resume or click to browse. We support PDF, DOC, and DOCX formats.
+                </p>
+                
+                <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 hover:border-primary/50 transition-colors cursor-pointer">
+                  <div className="text-muted-foreground">
+                    <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p className="font-medium">Click to upload or drag & drop</p>
+                    <p className="text-sm mt-2">PDF, DOC, DOCX up to 10MB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Career Insights & Tips
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Stay updated with the latest career advice, industry trends, and job market insights from our experts.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {/* Blog Post 1 */}
+            <article className="bg-background border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
+              <div className="bg-gradient-to-r from-primary/20 to-secondary/20 h-48 p-6 flex items-center justify-center">
+                <TrendingUp className="h-16 w-16 text-primary/60" />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                  <Calendar className="h-4 w-4" />
+                  <span>September 2, 2025</span>
+                  <span>•</span>
+                  <Eye className="h-4 w-4" />
+                  <span>2.3k views</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
+                  Top 10 In-Demand Tech Skills in Africa for 2025
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Discover which technical skills are most sought after by African employers and how to develop them effectively.
+                </p>
+                <Button variant="ghost" size="sm" className="p-0">
+                  Read More <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </article>
+
+            {/* Blog Post 2 */}
+            <article className="bg-background border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
+              <div className="bg-gradient-to-r from-secondary/20 to-primary/20 h-48 p-6 flex items-center justify-center">
+                <Users className="h-16 w-16 text-secondary/60" />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                  <Calendar className="h-4 w-4" />
+                  <span>August 28, 2025</span>
+                  <span>•</span>
+                  <Eye className="h-4 w-4" />
+                  <span>1.8k views</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
+                  How to Negotiate Salary in the South African Market
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Learn effective strategies for salary negotiation that work specifically in the South African business culture.
+                </p>
+                <Button variant="ghost" size="sm" className="p-0">
+                  Read More <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </article>
+
+            {/* Blog Post 3 */}
+            <article className="bg-background border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
+              <div className="bg-gradient-to-r from-primary/15 to-secondary/25 h-48 p-6 flex items-center justify-center">
+                <Briefcase className="h-16 w-16 text-primary/60" />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                  <Calendar className="h-4 w-4" />
+                  <span>August 25, 2025</span>
+                  <span>•</span>
+                  <Eye className="h-4 w-4" />
+                  <span>3.1k views</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
+                  Remote Work Opportunities: A Guide for African Professionals
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Explore the growing remote work landscape and how African professionals can tap into global opportunities.
+                </p>
+                <Button variant="ghost" size="sm" className="p-0">
+                  Read More <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </article>
+          </div>
+
+          <div className="text-center">
+            <Button variant="outline" size="lg">
+              View All Articles
+              <ArrowRight className="h-5 w-5 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
