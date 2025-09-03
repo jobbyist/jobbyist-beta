@@ -526,7 +526,7 @@ const Index = () => {
 
                 <Button size="lg" variant="outline" className="text-lg px-8">
                   <FileText className="h-5 w-5 mr-2" />
-                  Audit My Resume - Free
+                 Claim My Free Resume/CV Audit
                 </Button>
               </div>
 
@@ -558,10 +558,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Career Insights & Tips
+              In Case You Missed It...
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Stay updated with the latest career advice, industry trends, and job market insights from our experts.
+              Stay updated with the latest career advice, industry trends, and job market insights from our experts. Check out new episodes our mini podcast series every single week day from Monday to Sunday, The Job Post, 
             </p>
           </div>
 
@@ -577,7 +577,7 @@ const Index = () => {
                   <span>September 2, 2025</span>
                   <span>•</span>
                   <Eye className="h-4 w-4" />
-                  <span>2.3k views</span>
+                  <span>2.3k plays</span>
                 </div>
                 <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
                   Top 10 In-Demand Tech Skills in Africa for 2025
@@ -586,7 +586,7 @@ const Index = () => {
                   Discover which technical skills are most sought after by African employers and how to develop them effectively.
                 </p>
                 <Button variant="ghost" size="sm" className="p-0">
-                  Read More <ArrowRight className="h-4 w-4 ml-1" />
+                  Listen <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               </div>
             </article>
@@ -602,7 +602,7 @@ const Index = () => {
                   <span>August 28, 2025</span>
                   <span>•</span>
                   <Eye className="h-4 w-4" />
-                  <span>1.8k views</span>
+                  <span>1.8k plays</span>
                 </div>
                 <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
                   How to Negotiate Salary in the South African Market
@@ -611,7 +611,7 @@ const Index = () => {
                   Learn effective strategies for salary negotiation that work specifically in the South African business culture.
                 </p>
                 <Button variant="ghost" size="sm" className="p-0">
-                  Read More <ArrowRight className="h-4 w-4 ml-1" />
+                  Listen <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               </div>
             </article>
@@ -627,7 +627,7 @@ const Index = () => {
                   <span>August 25, 2025</span>
                   <span>•</span>
                   <Eye className="h-4 w-4" />
-                  <span>3.1k views</span>
+                  <span>3.1k plays</span>
                 </div>
                 <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
                   Remote Work Opportunities: A Guide for African Professionals
@@ -636,7 +636,7 @@ const Index = () => {
                   Explore the growing remote work landscape and how African professionals can tap into global opportunities.
                 </p>
                 <Button variant="ghost" size="sm" className="p-0">
-                  Read More <ArrowRight className="h-4 w-4 ml-1" />
+                  Listen <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               </div>
             </article>
@@ -644,7 +644,7 @@ const Index = () => {
 
           <div className="text-center">
             <Button variant="outline" size="lg">
-              View All Articles
+            See More Episodes
               <ArrowRight className="h-5 w-5 ml-2" />
             </Button>
           </div>
