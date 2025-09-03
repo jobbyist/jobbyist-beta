@@ -262,6 +262,119 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Featured Companies Section */}
+      <section className="py-16 bg-background/50 border-y">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Featured Companies Hiring Now
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Discover career opportunities with top employers across South Africa and Nigeria
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {/* Deloitte */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-green-600">D</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Deloitte</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
+            </div>
+
+            {/* Vodacom Group */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-red-600">V</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Vodacom Group</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
+            </div>
+
+            {/* Access Bank */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-orange-600">A</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Access Bank</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">Nigeria</p>
+            </div>
+
+            {/* Capitec Bank */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-blue-600">C</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Capitec Bank</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
+            </div>
+
+            {/* Amazon */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-yellow-600">A</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Amazon</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
+            </div>
+
+            {/* IBM */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-blue-600/10 to-indigo-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-blue-700">IBM</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">IBM</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
+            </div>
+
+            {/* Woolworths Holdings */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-green-600/10 to-emerald-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-green-700">W</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Woolworths</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
+            </div>
+
+            {/* Automattic */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-purple-600">A</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Automattic</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
+            </div>
+
+            {/* Dangote Group */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-red-600/10 to-red-700/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-red-700">D</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Dangote Group</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">Nigeria</p>
+            </div>
+
+            {/* Yoco */}
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-teal-500/10 to-teal-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                <span className="text-2xl font-bold text-teal-600">Y</span>
+              </div>
+              <h3 className="font-semibold text-center text-sm">Yoco</h3>
+              <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <Button variant="outline" size="lg">
+              View All Companies
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Main Content */}
       <div className="container mx-auto px-4 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
