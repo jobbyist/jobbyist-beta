@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { JobCard } from '@/components/JobCard';
 import { JobFilters, type JobFilters as JobFiltersType } from '@/components/JobFilters';
+import { AudioPlayer } from '@/components/AudioPlayer';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
@@ -37,6 +38,7 @@ const Index = () => {
   const [loadingJobs, setLoadingJobs] = useState(true);
   const [scraping, setScraping] = useState(false);
   const [availableSkills, setAvailableSkills] = useState<string[]>([]);
+  const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -553,98 +555,57 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Blog Section */}
+      {/* Podcast Section */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              In Case You Missed It...
+              Career Insights Podcast
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Stay updated with the latest career advice, industry trends, and job market insights from our experts. Check out new episodes our mini podcast series every single week day from Monday to Sunday, The Job Post, 
+              Listen to expert advice, success stories, and practical tips to advance your career in the African job market. New episodes every weekday.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            {/* Blog Post 1 */}
-            <article className="bg-background border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
-              <div className="bg-gradient-to-r from-primary/20 to-secondary/20 h-48 p-6 flex items-center justify-center">
-                <TrendingUp className="h-16 w-16 text-primary/60" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Calendar className="h-4 w-4" />
-                  <span>September 2, 2025</span>
-                  <span>•</span>
-                  <Eye className="h-4 w-4" />
-                  <span>2.3k plays</span>
-                </div>
-                <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
-                  Top 10 In-Demand Tech Skills in Africa for 2025
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4">
-                  Discover which technical skills are most sought after by African employers and how to develop them effectively.
-                </p>
-                <Button variant="ghost" size="sm" className="p-0">
-                  Listen <ArrowRight className="h-4 w-4 ml-1" />
-                </Button>
-              </div>
-            </article>
-
-            {/* Blog Post 2 */}
-            <article className="bg-background border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
-              <div className="bg-gradient-to-r from-secondary/20 to-primary/20 h-48 p-6 flex items-center justify-center">
-                <Users className="h-16 w-16 text-secondary/60" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Calendar className="h-4 w-4" />
-                  <span>August 28, 2025</span>
-                  <span>•</span>
-                  <Eye className="h-4 w-4" />
-                  <span>1.8k plays</span>
-                </div>
-                <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
-                  How to Negotiate Salary in the South African Market
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4">
-                  Learn effective strategies for salary negotiation that work specifically in the South African business culture.
-                </p>
-                <Button variant="ghost" size="sm" className="p-0">
-                  Listen <ArrowRight className="h-4 w-4 ml-1" />
-                </Button>
-              </div>
-            </article>
-
-            {/* Blog Post 3 */}
-            <article className="bg-background border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
-              <div className="bg-gradient-to-r from-primary/15 to-secondary/25 h-48 p-6 flex items-center justify-center">
-                <Briefcase className="h-16 w-16 text-primary/60" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Calendar className="h-4 w-4" />
-                  <span>August 25, 2025</span>
-                  <span>•</span>
-                  <Eye className="h-4 w-4" />
-                  <span>3.1k plays</span>
-                </div>
-                <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
-                  Remote Work Opportunities: A Guide for African Professionals
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4">
-                  Explore the growing remote work landscape and how African professionals can tap into global opportunities.
-                </p>
-                <Button variant="ghost" size="sm" className="p-0">
-                  Listen <ArrowRight className="h-4 w-4 ml-1" />
-                </Button>
-              </div>
-            </article>
+          <div className="mb-12">
+            <AudioPlayer 
+              episodes={[
+                {
+                  id: '1',
+                  title: 'Top 10 In-Demand Tech Skills in Africa for 2025',
+                  description: 'Discover which technical skills are most sought after by African employers and how to develop them effectively.',
+                  date: 'September 2, 2025',
+                  audioUrl: '/audio/episode1.mp3',
+                  duration: 1800,
+                  initialPlayCount: Math.floor(Math.random() * 1000) + 2500
+                },
+                {
+                  id: '2', 
+                  title: 'How to Negotiate Salary in the South African Market',
+                  description: 'Learn effective strategies for salary negotiation that work specifically in the South African business culture.',
+                  date: 'August 28, 2025',
+                  audioUrl: '/audio/episode2.mp3',
+                  duration: 2100,
+                  initialPlayCount: Math.floor(Math.random() * 1000) + 2500
+                },
+                {
+                  id: '3',
+                  title: 'Remote Work Opportunities: A Guide for African Professionals', 
+                  description: 'Explore the growing remote work landscape and how African professionals can tap into global opportunities.',
+                  date: 'August 25, 2025',
+                  audioUrl: '/audio/episode3.mp3',
+                  duration: 1950,
+                  initialPlayCount: Math.floor(Math.random() * 1000) + 2500
+                }
+              ]}
+              currentEpisodeIndex={currentEpisodeIndex}
+              onEpisodeChange={setCurrentEpisodeIndex}
+            />
           </div>
 
           <div className="text-center">
             <Button variant="outline" size="lg">
-            See More Episodes
+              See More Episodes
               <ArrowRight className="h-5 w-5 ml-2" />
             </Button>
           </div>
