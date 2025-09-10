@@ -40,6 +40,7 @@ const Index = () => {
   const [availableSkills, setAvailableSkills] = useState<string[]>([]);
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
   const [audioEpisodes, setAudioEpisodes] = useState<any[]>([]);
+  const [loadingEpisodes, setLoadingEpisodes] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -133,6 +134,7 @@ const Index = () => {
   };
 
   const fetchAudioEpisodes = async () => {
+    setLoadingEpisodes(true);
     try {
       const { data, error } = await supabase
         .from('audio_episodes')
@@ -144,6 +146,10 @@ const Index = () => {
       setAudioEpisodes(data || []);
     } catch (error) {
       console.error('Error fetching audio episodes:', error);
+      // Provide fallback episodes if database fails
+      setAudioEpisodes([]);
+    } finally {
+      setLoadingEpisodes(false);
     }
   };
 
@@ -591,23 +597,39 @@ const Index = () => {
           </div>
 
           <div className="mb-12">
-            <AudioPlayer 
-              episodes={audioEpisodes.map(episode => ({
-                id: episode.id,
-                title: episode.title,
-                description: episode.description || 'No description available',
-                date: new Date(episode.created_at).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                }),
-                audioUrl: episode.audio_url,
-                duration: episode.duration || 0,
-                initialPlayCount: episode.play_count || 0
-              }))}
-              currentEpisodeIndex={currentEpisodeIndex}
-              onEpisodeChange={setCurrentEpisodeIndex}
-            />
+            {loadingEpisodes ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                <p>Loading episodes...</p>
+              </div>
+            ) : audioEpisodes && audioEpisodes.length > 0 ? (
+              <AudioPlayer 
+                episodes={audioEpisodes.map(episode => ({
+                  id: episode.id,
+                  title: episode.title,
+                  description: episode.description || 'No description available',
+                  date: new Date(episode.created_at).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  }),
+                  audioUrl: episode.audio_url,
+                  duration: episode.duration || 0,
+                  initialPlayCount: episode.play_count || 0,
+                  thumbnail: episode.thumbnail_url || null
+                }))}
+                currentEpisodeIndex={currentEpisodeIndex}
+                onEpisodeChange={setCurrentEpisodeIndex}
+              />
+            ) : (
+              <div className="text-center py-12 bg-background/50 border rounded-lg">
+                <div className="h-12 w-12 text-muted-foreground mx-auto mb-4">🎵</div>
+                <h3 className="text-lg font-semibold mb-2">No episodes available</h3>
+                <p className="text-muted-foreground">
+                  Audio episodes will appear here once uploaded by an admin.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="text-center">
