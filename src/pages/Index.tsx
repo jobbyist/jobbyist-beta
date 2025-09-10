@@ -39,6 +39,7 @@ const Index = () => {
   const [scraping, setScraping] = useState(false);
   const [availableSkills, setAvailableSkills] = useState<string[]>([]);
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
+  const [audioEpisodes, setAudioEpisodes] = useState<any[]>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -131,8 +132,24 @@ const Index = () => {
     }
   };
 
+  const fetchAudioEpisodes = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('audio_episodes')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      
+      setAudioEpisodes(data || []);
+    } catch (error) {
+      console.error('Error fetching audio episodes:', error);
+    }
+  };
+
   useEffect(() => {
     fetchJobs();
+    fetchAudioEpisodes();
   }, []);
 
   useEffect(() => {
@@ -206,22 +223,28 @@ const Index = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm">
-                    <User className="h-4 w-4 mr-2" />
-                    {user.email}
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={signOut}>
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </Button>
-                </div>
-              ) : (
-                <Button asChild>
-                  <Link to="/auth">Sign In</Link>
+            {user && (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm">
+                  <User className="h-4 w-4 mr-2" />
+                  {user.email}
                 </Button>
-              )}
+                <Button variant="ghost" size="sm" onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            )}
+            {user?.email === 'mykeynotyours@example.com' && (
+              <Button asChild variant="outline" size="sm">
+                <Link to="/admin/audio-upload">Admin Upload</Link>
+              </Button>
+            )}
+            {!user && (
+              <Button asChild>
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            )}
               
               <Button 
                 onClick={runScraper} 
@@ -569,35 +592,19 @@ const Index = () => {
 
           <div className="mb-12">
             <AudioPlayer 
-              episodes={[
-                {
-                  id: '1',
-                  title: 'Top 10 In-Demand Tech Skills in Africa for 2025',
-                  description: 'Discover which technical skills are most sought after by African employers and how to develop them effectively.',
-                  date: 'September 2, 2025',
-                  audioUrl: '/audio/episode1.mp3',
-                  duration: 1800,
-                  initialPlayCount: Math.floor(Math.random() * 1000) + 2500
-                },
-                {
-                  id: '2', 
-                  title: 'How to Negotiate Salary in the South African Market',
-                  description: 'Learn effective strategies for salary negotiation that work specifically in the South African business culture.',
-                  date: 'August 28, 2025',
-                  audioUrl: '/audio/episode2.mp3',
-                  duration: 2100,
-                  initialPlayCount: Math.floor(Math.random() * 1000) + 2500
-                },
-                {
-                  id: '3',
-                  title: 'Remote Work Opportunities: A Guide for African Professionals', 
-                  description: 'Explore the growing remote work landscape and how African professionals can tap into global opportunities.',
-                  date: 'August 25, 2025',
-                  audioUrl: '/audio/episode3.mp3',
-                  duration: 1950,
-                  initialPlayCount: Math.floor(Math.random() * 1000) + 2500
-                }
-              ]}
+              episodes={audioEpisodes.map(episode => ({
+                id: episode.id,
+                title: episode.title,
+                description: episode.description || 'No description available',
+                date: new Date(episode.created_at).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                }),
+                audioUrl: episode.audio_url,
+                duration: episode.duration || 0,
+                initialPlayCount: episode.play_count || 0
+              }))}
               currentEpisodeIndex={currentEpisodeIndex}
               onEpisodeChange={setCurrentEpisodeIndex}
             />
