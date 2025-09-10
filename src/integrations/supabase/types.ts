@@ -14,6 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
+      audio_episode_stats: {
+        Row: {
+          created_at: string
+          episode_id: string
+          id: string
+          liked: boolean | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          episode_id: string
+          id?: string
+          liked?: boolean | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          episode_id?: string
+          id?: string
+          liked?: boolean | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audio_episode_stats_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "audio_episodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audio_episodes: {
+        Row: {
+          audio_url: string
+          created_at: string
+          description: string | null
+          duration: number | null
+          id: string
+          play_count: number | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          audio_url: string
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          id?: string
+          play_count?: number | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          audio_url?: string
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          id?: string
+          play_count?: number | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       job_applications: {
         Row: {
           applied_at: string
@@ -142,6 +213,7 @@ export type Database = {
           experience_level: string | null
           full_name: string | null
           id: string
+          is_admin: boolean | null
           location: string | null
           skills: string[] | null
           updated_at: string
@@ -155,6 +227,7 @@ export type Database = {
           experience_level?: string | null
           full_name?: string | null
           id?: string
+          is_admin?: boolean | null
           location?: string | null
           skills?: string[] | null
           updated_at?: string
@@ -168,6 +241,7 @@ export type Database = {
           experience_level?: string | null
           full_name?: string | null
           id?: string
+          is_admin?: boolean | null
           location?: string | null
           skills?: string[] | null
           updated_at?: string
