@@ -246,8 +246,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           </Button>
         </div>
 
-        {/* Secondary Controls */}
-        <div className="flex items-center justify-between">
+        {/* Secondary Controls - Mobile Optimized */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Volume Control */}
           <div className="flex items-center gap-2">
             {volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
@@ -256,38 +256,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               onValueChange={handleVolumeChange}
               className="w-20"
             />
-          </div>
-
-          {/* Speed Control */}
-          <div className="flex items-center gap-1">
-            <Button
-              variant={playbackRate === 0.5 ? "default" : "ghost"}
-              size="sm"
-              onClick={() => changeSpeed(0.5)}
-            >
-              0.5x
-            </Button>
-            <Button
-              variant={playbackRate === 1 ? "default" : "ghost"}
-              size="sm"
-              onClick={() => changeSpeed(1)}
-            >
-              1x
-            </Button>
-            <Button
-              variant={playbackRate === 1.5 ? "default" : "ghost"}
-              size="sm"
-              onClick={() => changeSpeed(1.5)}
-            >
-              1.5x
-            </Button>
-            <Button
-              variant={playbackRate === 2 ? "default" : "ghost"}
-              size="sm"
-              onClick={() => changeSpeed(2)}
-            >
-              2x
-            </Button>
           </div>
 
           {/* Action Buttons */}

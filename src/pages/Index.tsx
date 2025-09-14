@@ -272,16 +272,6 @@ const Index = () => {
                 <Link to="/auth">Sign In</Link>
               </Button>
             )}
-              
-              <Button 
-                onClick={runScraper} 
-                disabled={scraping}
-                variant="outline"
-                size="sm"
-              >
-                <Zap className="h-4 w-4 mr-2" />
-                {scraping ? 'Scraping...' : 'Refresh Jobs'}
-              </Button>
             </div>
           </div>
         </div>
