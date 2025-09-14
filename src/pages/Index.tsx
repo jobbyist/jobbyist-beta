@@ -143,11 +143,32 @@ const Index = () => {
 
       if (error) throw error;
       
-      setAudioEpisodes(data || []);
+      // If database has episodes, use those, otherwise use fallback with our new episode
+      const episodes = data && data.length > 0 ? data : [{
+        id: 'fallback-s1e1',
+        title: 'S1E1 - Reclaim Your Worth: Dismantling the Gratitude Tax and Earning What You Deserve',
+        description: 'Explore how to break free from the "gratitude tax" - the expectation that you should accept less than you deserve simply because you have a job. Learn strategies to recognize your true worth and negotiate for what you deserve in your career.',
+        audio_url: '/audio/s1e1-reclaim-your-worth.mp3',
+        thumbnail_url: '/images/thumbnails/s1e1-thumbnail.png',
+        duration: 1800, // 30 minutes placeholder
+        play_count: 0,
+        created_at: new Date().toISOString()
+      }];
+      
+      setAudioEpisodes(episodes);
     } catch (error) {
       console.error('Error fetching audio episodes:', error);
       // Provide fallback episodes if database fails
-      setAudioEpisodes([]);
+      setAudioEpisodes([{
+        id: 'fallback-s1e1',
+        title: 'S1E1 - Reclaim Your Worth: Dismantling the Gratitude Tax and Earning What You Deserve',
+        description: 'Explore how to break free from the "gratitude tax" - the expectation that you should accept less than you deserve simply because you have a job. Learn strategies to recognize your true worth and negotiate for what you deserve in your career.',
+        audio_url: '/audio/s1e1-reclaim-your-worth.mp3',
+        thumbnail_url: '/images/thumbnails/s1e1-thumbnail.png',
+        duration: 1800, // 30 minutes placeholder
+        play_count: 0,
+        created_at: new Date().toISOString()
+      }]);
     } finally {
       setLoadingEpisodes(false);
     }
@@ -589,7 +610,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Career Insights Podcast
+              The Job Post
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Listen to expert advice, success stories, and practical tips to advance your career in the African job market. New episodes every weekday.
