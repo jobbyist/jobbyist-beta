@@ -5,6 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // Base URL for GitHub Pages with custom domain (CNAME)
+  base: mode === 'production' ? '/' : '/',
   server: {
     host: "0.0.0.0",
     port: 5000,
@@ -19,5 +21,10 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'esbuild',
   },
 }));
