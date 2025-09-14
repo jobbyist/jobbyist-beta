@@ -143,11 +143,32 @@ const Index = () => {
 
       if (error) throw error;
       
-      setAudioEpisodes(data || []);
+      // If database has episodes, use those, otherwise use fallback with our new episode
+      const episodes = data && data.length > 0 ? data : [{
+        id: 'fallback-s1e1',
+        title: 'S1E1 - Reclaim Your Worth: Dismantling the Gratitude Tax and Earning What You Deserve',
+        description: 'Explore how to break free from the "gratitude tax" - the expectation that you should accept less than you deserve simply because you have a job. Learn strategies to recognize your true worth and negotiate for what you deserve in your career.',
+        audio_url: '/audio/s1e1-reclaim-your-worth.mp3',
+        thumbnail_url: '/images/thumbnails/s1e1-thumbnail.png',
+        duration: 1800, // 30 minutes placeholder
+        play_count: 0,
+        created_at: new Date().toISOString()
+      }];
+      
+      setAudioEpisodes(episodes);
     } catch (error) {
       console.error('Error fetching audio episodes:', error);
       // Provide fallback episodes if database fails
-      setAudioEpisodes([]);
+      setAudioEpisodes([{
+        id: 'fallback-s1e1',
+        title: 'S1E1 - Reclaim Your Worth: Dismantling the Gratitude Tax and Earning What You Deserve',
+        description: 'Explore how to break free from the "gratitude tax" - the expectation that you should accept less than you deserve simply because you have a job. Learn strategies to recognize your true worth and negotiate for what you deserve in your career.',
+        audio_url: '/audio/s1e1-reclaim-your-worth.mp3',
+        thumbnail_url: '/images/thumbnails/s1e1-thumbnail.png',
+        duration: 1800, // 30 minutes placeholder
+        play_count: 0,
+        created_at: new Date().toISOString()
+      }]);
     } finally {
       setLoadingEpisodes(false);
     }
