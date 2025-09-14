@@ -1,8 +1,8 @@
-# za-job-stream
+# Jobbyist (beta)
 
 ## Overview
 
-za-job-stream is a React-based job search platform focused on the South African market. The application combines job listings with audio content, featuring a comprehensive job search interface, audio episode streaming capabilities, and administrative tools for content management. Built with modern web technologies, it provides both job seekers and content consumers with an integrated platform for career development and professional insights.
+Jobbyist is a React-based job search platform focused on the South African market. The application combines job listings with audio content, featuring a comprehensive job search interface, audio episode streaming capabilities, and administrative tools for content management. Built with modern web technologies, it provides both job seekers and content consumers with an integrated platform for career development and professional insights.
 
 ## User Preferences
 
