@@ -589,7 +589,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Career Insights Podcast
+              The Job Post
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Listen to expert advice, success stories, and practical tips to advance your career in the African job market. New episodes every weekday.
