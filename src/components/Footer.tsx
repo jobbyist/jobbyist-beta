@@ -1,9 +1,12 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Briefcase, Facebook, Twitter, Instagram, Linkedin, Search } from 'lucide-react';
+import { useState } from 'react';
+import SearchModal from './SearchModal';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const footerSections = {
     locations: [
@@ -21,8 +24,8 @@ const Footer = () => {
     services: [
       'Job Search',
       'Resume Audit',
-      'Career Coaching',
-      'Company Reviews'
+      'Upgrade To Pro',
+      'Company Directory'
     ],
     legal: [
       'Privacy Policy',
@@ -110,13 +113,42 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Services</h4>
             <ul className="space-y-2">
-              {footerSections.services.map((item) => (
-                <li key={item}>
-                  <a href={`/${item.toLowerCase().replace(/[\s-]/g, '-')}`} className="text-muted-foreground hover:text-foreground transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              {footerSections.services.map((item) => {
+                if (item === 'Job Search') {
+                  return (
+                    <li key={item}>
+                      <button 
+                        onClick={() => setIsSearchModalOpen(true)}
+                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+                      >
+                        <Search className="h-4 w-4" />
+                        {item}
+                      </button>
+                    </li>
+                  );
+                } else if (item === 'Resume Audit') {
+                  return (
+                    <li key={item}>
+                      <a 
+                        href="https://audit.jobbyist.africa" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  );
+                } else {
+                  return (
+                    <li key={item}>
+                      <a href={`/${item.toLowerCase().replace(/[\s-]/g, '-')}`} className="text-muted-foreground hover:text-foreground transition-colors">
+                        {item}
+                      </a>
+                    </li>
+                  );
+                }
+              })}
             </ul>
           </div>
 
@@ -144,6 +176,11 @@ const Footer = () => {
           </p>
         </div>
       </div>
+      
+      <SearchModal 
+        open={isSearchModalOpen} 
+        onOpenChange={setIsSearchModalOpen} 
+      />
     </footer>
   );
 };
