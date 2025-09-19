@@ -103,3 +103,64 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Animated gradient background */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradient-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(-45deg, 
+    hsl(var(--primary) / 0.03),
+    hsl(var(--secondary) / 0.05),
+    hsl(var(--primary) / 0.02),
+    hsl(var(--secondary) / 0.04)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.animated-gradient-overlay {
+  position: relative;
+}
+
+.animated-gradient-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    hsl(var(--primary) / 0.01),
+    transparent,
+    hsl(var(--secondary) / 0.02),
+    transparent
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 20s ease infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.animated-gradient-overlay > * {
+  position: relative;
+  z-index: 1;
+}

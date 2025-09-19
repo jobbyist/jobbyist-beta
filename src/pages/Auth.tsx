@@ -48,7 +48,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/20 via-background to-secondary/20 p-4">
+    <div className="min-h-screen flex items-center justify-center animated-gradient-bg animated-gradient-overlay p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Welcome to Jobbyist</CardTitle>

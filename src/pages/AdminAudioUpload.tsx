@@ -204,7 +204,7 @@ const AdminAudioUpload = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+    <div className="min-h-screen animated-gradient-bg animated-gradient-overlay">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Button
