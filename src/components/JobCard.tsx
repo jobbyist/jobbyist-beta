@@ -6,6 +6,7 @@ import { MapPin, Building2, Clock, DollarSign, Heart, ExternalLink } from 'lucid
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import { AuthModal } from '@/components/AuthModal';
 
 interface Job {
   id: string;
@@ -33,6 +34,7 @@ interface JobCardProps {
 
 export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) => {
   const [saving, setSaving] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
@@ -117,6 +119,21 @@ export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) =>
     }
   };
 
+  const handleApplyNow = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    
+    // If user is authenticated, redirect to application URL
+    window.open(job.application_url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleAuthSuccess = () => {
+    // After successful authentication, redirect to application URL
+    window.open(job.application_url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <Card className="hover:shadow-lg transition-shadow duration-200">
       <CardHeader className="pb-3">
@@ -183,17 +200,18 @@ export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) =>
           </div>
         )}
 
-        <Button asChild className="w-full">
-          <a 
-            href={job.application_url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-2"
-          >
+        <Button onClick={handleApplyNow} className="w-full">
+          <span className="flex items-center gap-2">
             Apply Now
             <ExternalLink className="h-4 w-4" />
-          </a>
+          </span>
         </Button>
+        
+        <AuthModal 
+          open={showAuthModal} 
+          onOpenChange={setShowAuthModal}
+          onAuthSuccess={handleAuthSuccess}
+        />
       </CardContent>
     </Card>
   );
