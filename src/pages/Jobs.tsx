@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { JobFilters as JobFiltersComponent } from '@/components/JobFilters';
 import { JobCard } from '@/components/JobCard';
+import AdPlaceholder from '@/components/AdPlaceholder';
 import { generateJobSchema } from '@/utils/google-jobs-schema';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -201,6 +202,16 @@ const Jobs = () => {
       <link rel="canonical" href="https://jobbyist.africa/jobs" />
 
       <div className="container mx-auto px-4 py-8">
+        {/* Header Banner Ad */}
+        <div className="mb-6 text-center">
+          <div className="hidden md:block">
+            <AdPlaceholder size="banner" label="Jobs Page Header Ad" className="mx-auto" />
+          </div>
+          <div className="md:hidden">
+            <AdPlaceholder size="mobile" label="Jobs Mobile Header Ad" className="mx-auto" />
+          </div>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">
@@ -243,6 +254,16 @@ const Jobs = () => {
               onFiltersChange={setFilters}
               availableSkills={availableSkills}
             />
+            
+            {/* Sidebar Ad */}
+            <div className="mt-6 hidden lg:block">
+              <AdPlaceholder size="rectangle" label="Jobs Sidebar Ad" />
+            </div>
+            
+            {/* Square Ad for smaller space */}
+            <div className="mt-6 hidden lg:block">
+              <AdPlaceholder size="square" label="Jobs Square Ad" />
+            </div>
           </div>
 
           {/* Job Listings */}

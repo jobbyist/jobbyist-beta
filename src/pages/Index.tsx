@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { JobCard } from '@/components/JobCard';
 import { JobFilters, type JobFilters as JobFiltersType } from '@/components/JobFilters';
 import { AudioPlayer } from '@/components/AudioPlayer';
+import AdPlaceholder from '@/components/AdPlaceholder';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
@@ -301,6 +302,16 @@ const Index = () => {
         </div>
       </header>
 
+      {/* Header Banner Ad */}
+      <div className="hidden md:flex justify-center py-4 bg-background/30">
+        <AdPlaceholder size="banner" label="Header Banner Ad" />
+      </div>
+
+      {/* Mobile Banner Ad */}
+      <div className="md:hidden flex justify-center py-2 bg-background/30">
+        <AdPlaceholder size="mobile" label="Mobile Banner Ad" />
+      </div>
+
       {/* Hero Section */}
       <section className="py-12 px-4">
         <div className="container mx-auto text-center">
@@ -451,6 +462,11 @@ const Index = () => {
               onFiltersChange={setFilters}
               availableSkills={availableSkills}
             />
+            
+            {/* Sidebar Rectangle Ad */}
+            <div className="mt-6 hidden lg:block">
+              <AdPlaceholder size="rectangle" label="Sidebar Ad" />
+            </div>
           </aside>
 
           {/* Jobs List */}
@@ -563,6 +579,13 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Ad Section Between Content */}
+      <div className="py-8 bg-background/20">
+        <div className="container mx-auto px-4 text-center">
+          <AdPlaceholder size="rectangle" label="Content Rectangle Ad" className="mx-auto" />
+        </div>
+      </div>
 
       {/* ResumeAudit Section */}
       <section className="py-16 bg-gradient-to-r from-secondary/10 via-background to-primary/5">
@@ -689,6 +712,18 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer Banner Ad */}
+      <div className="py-6 bg-background/10 border-t">
+        <div className="container mx-auto px-4 text-center">
+          <div className="hidden md:block">
+            <AdPlaceholder size="banner" label="Footer Banner Ad" className="mx-auto" />
+          </div>
+          <div className="md:hidden">
+            <AdPlaceholder size="mobile" label="Footer Mobile Ad" className="mx-auto" />
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>
