@@ -223,6 +223,9 @@ const Index = () => {
       );
     }
 
+    // Limit to 25 most recent jobs for homepage
+    filtered = filtered.slice(0, 25);
+
     setFilteredJobs(filtered);
   }, [jobs, filters]);
 
@@ -434,7 +437,7 @@ const Index = () => {
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-semibold">
-                  {filteredJobs.length} Job{filteredJobs.length !== 1 ? 's' : ''} Found
+                  Recent Jobs {filteredJobs.length > 0 && `(${filteredJobs.length} jobs)`}
                 </h3>
               </div>
             </div>
@@ -463,15 +466,27 @@ const Index = () => {
                 </Button>
               </div>
             ) : (
-              <div className="grid gap-4">
-                {filteredJobs.map(job => (
-                  <JobCard
-                    key={job.id}
-                    job={job}
-                    isSaved={savedJobs.includes(job.id)}
-                    onSaveToggle={handleSaveToggle}
-                  />
-                ))}
+              <div className="space-y-6">
+                <div className="grid gap-4">
+                  {filteredJobs.map(job => (
+                    <JobCard
+                      key={job.id}
+                      job={job}
+                      isSaved={savedJobs.includes(job.id)}
+                      onSaveToggle={handleSaveToggle}
+                    />
+                  ))}
+                </div>
+                
+                {/* Browse All Jobs Button */}
+                <div className="text-center pt-4">
+                  <Link to="/jobs">
+                    <Button size="lg" variant="outline" className="min-w-[200px]">
+                      Browse All Jobs
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
             )}
           </main>
@@ -566,10 +581,12 @@ const Index = () => {
                   </div>
                 </div>
 
-                <Button size="lg" variant="outline" className="text-lg px-8">
-                  <FileText className="h-5 w-5 mr-2" />
-                 Claim My Free Resume/CV Audit
-                </Button>
+                <a href="https://audit.jobbyist.africa" target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" variant="outline" className="text-lg px-8">
+                    <FileText className="h-5 w-5 mr-2" />
+                   Claim My Free Resume/CV Audit
+                  </Button>
+                </a>
               </div>
 
               <div className="bg-background/50 border rounded-lg p-8 text-center">
