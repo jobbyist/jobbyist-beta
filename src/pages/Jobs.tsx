@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { JobFilters as JobFiltersComponent } from '@/components/JobFilters';
 import { JobCard } from '@/components/JobCard';
 import { generateJobSchema } from '@/utils/google-jobs-schema';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { Search, MapPin, Briefcase } from 'lucide-react';
 
 interface Job {
@@ -42,10 +44,14 @@ interface JobFilters {
 }
 
 const Jobs = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+  const [savedJobs, setSavedJobs] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [availableSkills, setAvailableSkills] = useState<string[]>([]);
   const [filters, setFilters] = useState<JobFilters>({
     search: searchParams.get('q') || '',
     location: searchParams.get('location') || '',
@@ -55,12 +61,7 @@ const Jobs = () => {
     skills: searchParams.get('skills')?.split(',').filter(Boolean) || []
   });
 
-  const [availableSkills] = useState([
-    'JavaScript', 'TypeScript', 'React', 'Python', 'Java', 'Node.js',
-    'AWS', 'Docker', 'Kubernetes', 'SQL', 'Machine Learning',
-    'Product Management', 'Digital Marketing', 'Business Analysis',
-    'Project Management', 'UX Design', 'Data Analysis'
-  ]);
+
 
   const fetchJobs = async () => {
     try {
@@ -68,12 +69,26 @@ const Jobs = () => {
         .from('jobs')
         .select('*')
         .eq('is_active', true)
-        .order('posted_date', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
+      
       setJobs(data || []);
+      
+      // Extract unique skills
+      const skills = new Set<string>();
+      (data || []).forEach(job => {
+        job.skills_required?.forEach((skill: string) => skills.add(skill));
+      });
+      setAvailableSkills(Array.from(skills).sort());
+      
     } catch (error) {
       console.error('Error fetching jobs:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load jobs",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -253,7 +268,12 @@ const Jobs = () => {
             ) : (
               <div className="space-y-4">
                 {filteredJobs.map((job) => (
-                  <JobCard key={job.id} job={job} />
+                  <JobCard 
+                    key={job.id} 
+                    job={job} 
+                    isSaved={savedJobs.includes(job.id)}
+                    onSaveToggle={(saved) => handleSaveToggle(job.id, saved)}
+                  />
                 ))}
               </div>
             )}
