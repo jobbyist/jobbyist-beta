@@ -11,6 +11,16 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
 import Footer from '@/components/Footer';
+
+interface AudioEpisode {
+  id: string;
+  title: string;
+  description: string;
+  audioUrl: string;
+  thumbnailUrl?: string;
+  duration?: number;
+  initialPlayCount?: number;
+}
    
 interface Job {
   id: string;
@@ -39,7 +49,7 @@ const Index = () => {
   const [scraping, setScraping] = useState(false);
   const [availableSkills, setAvailableSkills] = useState<string[]>([]);
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
-  const [audioEpisodes, setAudioEpisodes] = useState<any[]>([]);
+  const [audioEpisodes, setAudioEpisodes] = useState<AudioEpisode[]>([]);
   const [loadingEpisodes, setLoadingEpisodes] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
