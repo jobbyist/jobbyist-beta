@@ -545,7 +545,7 @@ const Index = () => {
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-semibold">
-                  Featured Jobs {filteredJobs.length > 0 && `(${filteredJobs.length} jobs)`}
+                  Featured Jobs
                 </h3>
               </div>
             </div>
