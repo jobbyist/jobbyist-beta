@@ -44,7 +44,25 @@ export interface JobPosting {
   };
 }
 
-export function generateJobSchema(job: any): JobPosting {
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  job_type: string;
+  currency: string;
+  description: string;
+  skills_required?: string[];
+  application_url: string;
+  company_logo_url?: string;
+  salary_min?: number;
+  created_at: string;
+  posted_date?: string;
+  expires_date?: string;
+  remote_allowed?: boolean;
+}
+
+export function generateJobSchema(job: Job): JobPosting {
   const [city, region, country] = job.location.split(', ');
   
   return {

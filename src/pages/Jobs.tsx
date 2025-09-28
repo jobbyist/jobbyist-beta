@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -61,56 +61,7 @@ const Jobs = () => {
     skills: searchParams.get('skills')?.split(',').filter(Boolean) || []
   });
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
 
-  useEffect(() => {
-    if (user) {
-      fetchSavedJobs();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    applyFilters();
-  }, [jobs, filters]);
-
-  useEffect(() => {
-    // Update URL params when filters change
-    const params = new URLSearchParams();
-    if (filters.search) params.set('q', filters.search);
-    if (filters.location) params.set('location', filters.location);
-    if (filters.jobType) params.set('type', filters.jobType);
-    if (filters.experienceLevel) params.set('level', filters.experienceLevel);
-    if (filters.remoteOnly) params.set('remote', 'true');
-    if (filters.skills.length > 0) params.set('skills', filters.skills.join(','));
-    
-    setSearchParams(params);
-  }, [filters, setSearchParams]);
-
-  const fetchSavedJobs = async () => {
-    if (!user) return;
-    
-    try {
-      const { data, error } = await supabase
-        .from('saved_jobs')
-        .select('job_id')
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-      setSavedJobs(data?.map(item => item.job_id) || []);
-    } catch (error) {
-      console.error('Error fetching saved jobs:', error);
-    }
-  };
-
-  const handleSaveToggle = (jobId: string, saved: boolean) => {
-    if (saved) {
-      setSavedJobs(prev => [...prev, jobId]);
-    } else {
-      setSavedJobs(prev => prev.filter(id => id !== jobId));
-    }
-  };
 
   const fetchJobs = async () => {
     try {
@@ -143,7 +94,7 @@ const Jobs = () => {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = jobs;
 
     if (filters.search) {
@@ -185,7 +136,28 @@ const Jobs = () => {
     }
 
     setFilteredJobs(filtered);
-  };
+  }, [jobs, filters]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  useEffect(() => {
+    // Update URL params when filters change
+    const params = new URLSearchParams();
+    if (filters.search) params.set('q', filters.search);
+    if (filters.location) params.set('location', filters.location);
+    if (filters.jobType) params.set('type', filters.jobType);
+    if (filters.experienceLevel) params.set('level', filters.experienceLevel);
+    if (filters.remoteOnly) params.set('remote', 'true');
+    if (filters.skills.length > 0) params.set('skills', filters.skills.join(','));
+    
+    setSearchParams(params);
+  }, [filters, setSearchParams]);
 
   // Add structured data for Google Jobs
   useEffect(() => {
