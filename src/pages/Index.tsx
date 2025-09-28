@@ -10,9 +10,10 @@ import { AudioPlayer } from '@/components/AudioPlayer';
 import AdPlaceholder from '@/components/AdPlaceholder';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
+import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye, Building2, Target, Shield } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Footer from '@/components/Footer';
+import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
 
 interface AudioEpisode {
   id: string;
@@ -54,6 +55,7 @@ const Index = () => {
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
   const [audioEpisodes, setAudioEpisodes] = useState<AudioEpisode[]>([]);
   const [loadingEpisodes, setLoadingEpisodes] = useState(true);
+  const [isRecruitmentModalOpen, setIsRecruitmentModalOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -452,6 +454,75 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Recruitment Suite Section */}
+      <section className="py-16 bg-gradient-to-r from-primary/5 via-background to-secondary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full mb-6">
+                <Building2 className="h-5 w-5" />
+                <span className="font-semibold">Early Access</span>
+              </div>
+              
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Recruitment Suite for SMEs
+              </h2>
+              
+              <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                Get ready for our comprehensive HR management solution launching January 2026. 
+                Designed specifically for small and medium enterprises looking for turnkey staffing solutions at a fraction of the cost.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="bg-background/80 backdrop-blur-sm border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <div className="bg-primary/10 rounded-lg p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Target className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Tailored Solutions</h3>
+                <p className="text-muted-foreground">
+                  Custom HR workflows designed specifically for your business size and industry requirements.
+                </p>
+              </div>
+
+              <div className="bg-background/80 backdrop-blur-sm border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <div className="bg-primary/10 rounded-lg p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Complete Staffing</h3>
+                <p className="text-muted-foreground">
+                  End-to-end recruitment and staffing management from job posting to onboarding.
+                </p>
+              </div>
+
+              <div className="bg-background/80 backdrop-blur-sm border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <div className="bg-primary/10 rounded-lg p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Shield className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Cost Effective</h3>
+                <p className="text-muted-foreground">
+                  Enterprise-grade HR tools at SME-friendly prices. Get more value for your investment.
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <Button 
+                size="lg" 
+                className="text-lg px-8"
+                onClick={() => setIsRecruitmentModalOpen(true)}
+              >
+                Join Early Access Waiting List
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
+              <p className="text-sm text-muted-foreground mt-3">
+                Launching January 2026 • Free to join waiting list • Priority access for early adopters
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Main Content */}
       <div className="container mx-auto px-4 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -726,6 +797,11 @@ const Index = () => {
       </div>
 
       <Footer />
+      
+      <RecruitmentSuiteModal 
+        open={isRecruitmentModalOpen} 
+        onOpenChange={setIsRecruitmentModalOpen} 
+      />
     </div>
   );
 };
