@@ -10,6 +10,7 @@ import { AudioPlayer } from '@/components/AudioPlayer';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import Footer from '@/components/Footer';
    
 interface Job {
@@ -32,6 +33,7 @@ interface Job {
 
 const Index = () => {
   const { user, signOut, loading } = useAuth();
+  const isMobile = useIsMobile();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
@@ -248,26 +250,35 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Briefcase className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
-              <Badge variant="secondary" className="ml-2">Beta</Badge>
+              {!isMobile && (
+                <>
+                  <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
+                  <Badge variant="secondary" className="ml-2">Beta</Badge>
+                </>
+              )}
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
             {user && (
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm">
-                  <User className="h-4 w-4 mr-2" />
-                  {user.email}
+              <div className="flex items-center gap-1 md:gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/profile">
+                    <User className="h-4 w-4 mr-1 md:mr-2" />
+                    {isMobile 
+                      ? (user.email?.split('@')[0]?.substring(0, 8) + (user.email?.split('@')[0]?.length > 8 ? '...' : ''))
+                      : user.email
+                    }
+                  </Link>
                 </Button>
                 <Button variant="ghost" size="sm" onClick={signOut}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+                  <LogOut className="h-4 w-4 mr-1 md:mr-2" />
+                  {isMobile ? 'Out' : 'Sign Out'}
                 </Button>
               </div>
             )}
             {user?.email === 'mykeynotyours@example.com' && (
               <Button asChild variant="outline" size="sm">
-                <Link to="/admin/audio-upload">Admin Upload</Link>
+                <Link to="/admin/audio-upload">{isMobile ? 'Admin' : 'Admin Upload'}</Link>
               </Button>
             )}
             {!user && (
@@ -437,7 +448,7 @@ const Index = () => {
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-semibold">
-                  Recent Jobs {filteredJobs.length > 0 && `(${filteredJobs.length} jobs)`}
+                  Featured Jobs {filteredJobs.length > 0 && `(${filteredJobs.length} jobs)`}
                 </h3>
               </div>
             </div>
