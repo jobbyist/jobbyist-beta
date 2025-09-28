@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import AdPlaceholder from '@/components/AdPlaceholder';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   Crown, 
@@ -175,6 +176,18 @@ const JobbyistPro = () => {
           </div>
         </div>
       </header>
+
+      {/* Header Banner Ad */}
+      <div className="py-4 bg-background/50 border-b">
+        <div className="container mx-auto px-4 text-center">
+          <div className="hidden md:block">
+            <AdPlaceholder size="banner" label="Pro Page Header Ad" className="mx-auto" />
+          </div>
+          <div className="md:hidden">
+            <AdPlaceholder size="mobile" label="Pro Mobile Header Ad" className="mx-auto" />
+          </div>
+        </div>
+      </div>
 
       {/* Hero Section */}
       <section className="py-16 px-4 text-center">
@@ -455,6 +468,13 @@ const JobbyistPro = () => {
           </p>
         </div>
       </section>
+
+      {/* Footer Ad */}
+      <div className="py-6 bg-primary/5 border-t">
+        <div className="container mx-auto px-4 text-center">
+          <AdPlaceholder size="rectangle" label="Pro Page Footer Ad" className="mx-auto" />
+        </div>
+      </div>
 
       <Footer />
     </div>
