@@ -50,7 +50,7 @@ const experienceLevels = [
 ];
 
 export const JobFilters = ({ filters, onFiltersChange, availableSkills }: JobFiltersProps) => {
-  const updateFilter = (key: keyof JobFilters, value: any) => {
+  const updateFilter = (key: keyof JobFilters, value: string | boolean | string[]) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 

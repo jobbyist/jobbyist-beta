@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { JobFilters as JobFiltersComponent } from '@/components/JobFilters';
@@ -62,27 +62,6 @@ const Jobs = () => {
     'Project Management', 'UX Design', 'Data Analysis'
   ]);
 
-  useEffect(() => {
-    fetchJobs();
-  }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [jobs, filters]);
-
-  useEffect(() => {
-    // Update URL params when filters change
-    const params = new URLSearchParams();
-    if (filters.search) params.set('q', filters.search);
-    if (filters.location) params.set('location', filters.location);
-    if (filters.jobType) params.set('type', filters.jobType);
-    if (filters.experienceLevel) params.set('level', filters.experienceLevel);
-    if (filters.remoteOnly) params.set('remote', 'true');
-    if (filters.skills.length > 0) params.set('skills', filters.skills.join(','));
-    
-    setSearchParams(params);
-  }, [filters, setSearchParams]);
-
   const fetchJobs = async () => {
     try {
       const { data, error } = await supabase
@@ -100,7 +79,7 @@ const Jobs = () => {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = jobs;
 
     if (filters.search) {
@@ -142,7 +121,28 @@ const Jobs = () => {
     }
 
     setFilteredJobs(filtered);
-  };
+  }, [jobs, filters]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  useEffect(() => {
+    // Update URL params when filters change
+    const params = new URLSearchParams();
+    if (filters.search) params.set('q', filters.search);
+    if (filters.location) params.set('location', filters.location);
+    if (filters.jobType) params.set('type', filters.jobType);
+    if (filters.experienceLevel) params.set('level', filters.experienceLevel);
+    if (filters.remoteOnly) params.set('remote', 'true');
+    if (filters.skills.length > 0) params.set('skills', filters.skills.join(','));
+    
+    setSearchParams(params);
+  }, [filters, setSearchParams]);
 
   // Add structured data for Google Jobs
   useEffect(() => {
