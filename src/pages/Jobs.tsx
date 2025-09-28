@@ -6,6 +6,16 @@ import { JobCard } from '@/components/JobCard';
 import { generateJobSchema } from '@/utils/google-jobs-schema';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { 
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { Search, MapPin, Briefcase } from 'lucide-react';
 
 interface Job {
@@ -46,6 +56,11 @@ const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Pagination state
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const jobsPerPage = 20;
+  
   const [filters, setFilters] = useState<JobFilters>({
     search: searchParams.get('q') || '',
     location: searchParams.get('location') || '',
@@ -70,6 +85,15 @@ const Jobs = () => {
     applyFilters();
   }, [jobs, filters]);
 
+  // Reset to page 1 when filters change  
+  useEffect(() => {
+    if (currentPage > 1) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('page');
+      setSearchParams(params);
+    }
+  }, [filters]);
+
   useEffect(() => {
     // Update URL params when filters change
     const params = new URLSearchParams();
@@ -79,9 +103,10 @@ const Jobs = () => {
     if (filters.experienceLevel) params.set('level', filters.experienceLevel);
     if (filters.remoteOnly) params.set('remote', 'true');
     if (filters.skills.length > 0) params.set('skills', filters.skills.join(','));
+    if (currentPage > 1) params.set('page', currentPage.toString());
     
     setSearchParams(params);
-  }, [filters, setSearchParams]);
+  }, [filters, currentPage, setSearchParams]);
 
   const fetchJobs = async () => {
     try {
@@ -142,6 +167,59 @@ const Jobs = () => {
     }
 
     setFilteredJobs(filtered);
+  };
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+  const startIndex = (currentPage - 1) * jobsPerPage;
+  const endIndex = startIndex + jobsPerPage;
+  const currentJobs = filteredJobs.slice(startIndex, endIndex);
+
+  // Pagination helpers
+  const updatePage = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    if (page > 1) {
+      params.set('page', page.toString());
+    } else {
+      params.delete('page');
+    }
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
   };
 
   // Add structured data for Google Jobs
@@ -239,6 +317,11 @@ const Jobs = () => {
                   {filteredJobs.length} Jobs Found
                 </h2>
               </div>
+              {totalPages > 1 && (
+                <div className="text-sm text-muted-foreground">
+                  Showing {startIndex + 1}-{Math.min(endIndex, filteredJobs.length)} of {filteredJobs.length}
+                </div>
+              )}
             </div>
 
             {filteredJobs.length === 0 ? (
@@ -251,11 +334,66 @@ const Jobs = () => {
                 </p>
               </Card>
             ) : (
-              <div className="space-y-4">
-                {filteredJobs.map((job) => (
-                  <JobCard key={job.id} job={job} />
-                ))}
-              </div>
+              <>
+                <div className="space-y-4">
+                  {currentJobs.map((job) => (
+                    <JobCard key={job.id} job={job} />
+                  ))}
+                </div>
+                
+                {totalPages > 1 && (
+                  <div className="mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage > 1) {
+                                updatePage(currentPage - 1);
+                              }
+                            }}
+                            className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                        
+                        {generatePageNumbers().map((page, index) => (
+                          <PaginationItem key={index}>
+                            {page === 'ellipsis' ? (
+                              <PaginationEllipsis />
+                            ) : (
+                              <PaginationLink
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  updatePage(page as number);
+                                }}
+                                isActive={currentPage === page}
+                              >
+                                {page}
+                              </PaginationLink>
+                            )}
+                          </PaginationItem>
+                        ))}
+                        
+                        <PaginationItem>
+                          <PaginationNext
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage < totalPages) {
+                                updatePage(currentPage + 1);
+                              }
+                            }}
+                            className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

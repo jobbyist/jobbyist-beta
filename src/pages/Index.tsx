@@ -434,8 +434,14 @@ const Index = () => {
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-semibold">
-                  {filteredJobs.length} Job{filteredJobs.length !== 1 ? 's' : ''} Found
+                  Recent Job Opportunities
                 </h3>
+                <Button asChild variant="outline">
+                  <Link to="/jobs">
+                    View All Jobs ({filteredJobs.length})
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Link>
+                </Button>
               </div>
             </div>
 
@@ -463,16 +469,31 @@ const Index = () => {
                 </Button>
               </div>
             ) : (
-              <div className="grid gap-4">
-                {filteredJobs.map(job => (
-                  <JobCard
-                    key={job.id}
-                    job={job}
-                    isSaved={savedJobs.includes(job.id)}
-                    onSaveToggle={handleSaveToggle}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="grid gap-4">
+                  {filteredJobs.slice(0, 20).map(job => (
+                    <JobCard
+                      key={job.id}
+                      job={job}
+                      isSaved={savedJobs.includes(job.id)}
+                      onSaveToggle={handleSaveToggle}
+                    />
+                  ))}
+                </div>
+                {filteredJobs.length > 20 && (
+                  <div className="text-center mt-8">
+                    <Button asChild size="lg">
+                      <Link to="/jobs">
+                        View All {filteredJobs.length} Jobs
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Link>
+                    </Button>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Showing 20 of {filteredJobs.length} available positions
+                    </p>
+                  </div>
+                )}
+              </>
             )}
           </main>
         </div>
