@@ -9,6 +9,14 @@ import { generateJobSchema } from '@/utils/google-jobs-schema';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { 
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { Search, MapPin, Briefcase } from 'lucide-react';
 
 interface Job {
@@ -53,6 +61,12 @@ const Jobs = () => {
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [availableSkills, setAvailableSkills] = useState<string[]>([]);
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page') || '1'));
+  const [totalJobs, setTotalJobs] = useState(0);
+  const jobsPerPage = 20;
+  
   const [filters, setFilters] = useState<JobFilters>({
     search: searchParams.get('q') || '',
     location: searchParams.get('location') || '',
@@ -66,19 +80,34 @@ const Jobs = () => {
 
   const fetchJobs = async () => {
     try {
+      // Get total count first
+      const { count } = await supabase
+        .from('jobs')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_active', true);
+      
+      setTotalJobs(count || 0);
+      
+      // Then get paginated results
       const { data, error } = await supabase
         .from('jobs')
         .select('*')
         .eq('is_active', true)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .range((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage - 1);
 
       if (error) throw error;
       
       setJobs(data || []);
       
-      // Extract unique skills
+      // Extract unique skills from all jobs (we'll need to fetch skills separately)
+      const { data: skillsData } = await supabase
+        .from('jobs')
+        .select('skills_required')
+        .eq('is_active', true);
+      
       const skills = new Set<string>();
-      (data || []).forEach(job => {
+      (skillsData || []).forEach(job => {
         job.skills_required?.forEach((skill: string) => skills.add(skill));
       });
       setAvailableSkills(Array.from(skills).sort());
@@ -141,7 +170,7 @@ const Jobs = () => {
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     applyFilters();
@@ -156,9 +185,16 @@ const Jobs = () => {
     if (filters.experienceLevel) params.set('level', filters.experienceLevel);
     if (filters.remoteOnly) params.set('remote', 'true');
     if (filters.skills.length > 0) params.set('skills', filters.skills.join(','));
+    if (currentPage > 1) params.set('page', currentPage.toString());
     
     setSearchParams(params);
-  }, [filters, setSearchParams]);
+  }, [filters, currentPage, setSearchParams]);
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Add structured data for Google Jobs
   useEffect(() => {
@@ -272,9 +308,14 @@ const Jobs = () => {
               <div className="flex items-center gap-2">
                 <Briefcase className="h-5 w-5 text-primary" />
                 <h2 className="text-2xl font-semibold text-foreground">
-                  {filteredJobs.length} Jobs Found
+                  {totalJobs} Jobs Found
                 </h2>
               </div>
+              {totalJobs > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Page {currentPage} of {Math.ceil(totalJobs / jobsPerPage)}
+                </p>
+              )}
             </div>
 
             {filteredJobs.length === 0 ? (
@@ -287,16 +328,82 @@ const Jobs = () => {
                 </p>
               </Card>
             ) : (
-              <div className="space-y-4">
-                {filteredJobs.map((job) => (
-                  <JobCard 
-                    key={job.id} 
-                    job={job} 
-                    isSaved={savedJobs.includes(job.id)}
-                    onSaveToggle={(saved) => handleSaveToggle(job.id, saved)}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="space-y-4">
+                  {filteredJobs.map((job) => (
+                    <JobCard 
+                      key={job.id} 
+                      job={job} 
+                      isSaved={savedJobs.includes(job.id)}
+                      onSaveToggle={(saved) => handleSaveToggle(job.id, saved)}
+                    />
+                  ))}
+                </div>
+                
+                {/* Pagination */}
+                {totalJobs > jobsPerPage && (
+                  <div className="mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        {currentPage > 1 && (
+                          <PaginationItem>
+                            <PaginationPrevious 
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handlePageChange(currentPage - 1);
+                              }}
+                            />
+                          </PaginationItem>
+                        )}
+                        
+                        {/* Page numbers */}
+                        {Array.from({ length: Math.min(5, Math.ceil(totalJobs / jobsPerPage)) }, (_, i) => {
+                          const totalPages = Math.ceil(totalJobs / jobsPerPage);
+                          let pageNum;
+                          
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                href="#"
+                                isActive={currentPage === pageNum}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handlePageChange(pageNum);
+                                }}
+                              >
+                                {pageNum}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
+                        
+                        {currentPage < Math.ceil(totalJobs / jobsPerPage) && (
+                          <PaginationItem>
+                            <PaginationNext 
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handlePageChange(currentPage + 1);
+                              }}
+                            />
+                          </PaginationItem>
+                        )}
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
