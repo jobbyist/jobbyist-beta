@@ -355,7 +355,7 @@ const Index = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {/* Deloitte */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <Link to="/company/deloitte" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
               <div className="aspect-square bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/deloitte.svg" 
@@ -365,10 +365,10 @@ const Index = () => {
               </div>
               <h3 className="font-semibold text-center text-sm">Deloitte</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
-            </div>
+            </Link>
 
             {/* Vodacom Group */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <Link to="/company/vodacom" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
               <div className="aspect-square bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/vodacom.svg" 
@@ -378,10 +378,10 @@ const Index = () => {
               </div>
               <h3 className="font-semibold text-center text-sm">Vodacom Group</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
-            </div>
+            </Link>
 
             {/* Access Bank */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <Link to="/company/access-bank" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
               <div className="aspect-square bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/access-bank.svg" 
@@ -391,10 +391,10 @@ const Index = () => {
               </div>
               <h3 className="font-semibold text-center text-sm">Access Bank</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Nigeria</p>
-            </div>
+            </Link>
 
             {/* Capitec Bank */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <Link to="/company/capitec" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
               <div className="aspect-square bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/capitec.svg" 
@@ -404,10 +404,10 @@ const Index = () => {
               </div>
               <h3 className="font-semibold text-center text-sm">Capitec Bank</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
-            </div>
+            </Link>
 
             {/* Amazon */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <Link to="/company/amazon" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
               <div className="aspect-square bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/amazon.svg" 
@@ -417,10 +417,10 @@ const Index = () => {
               </div>
               <h3 className="font-semibold text-center text-sm">Amazon</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
-            </div>
+            </Link>
 
             {/* IBM */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
               <div className="aspect-square bg-gradient-to-br from-blue-600/10 to-indigo-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/ibm.svg" 
@@ -433,7 +433,7 @@ const Index = () => {
             </div>
 
             {/* Woolworths Holdings */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
               <div className="aspect-square bg-gradient-to-br from-green-600/10 to-emerald-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/woolworths.svg" 
@@ -446,7 +446,7 @@ const Index = () => {
             </div>
 
             {/* Automattic */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
               <div className="aspect-square bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/automattic.svg" 
@@ -459,7 +459,7 @@ const Index = () => {
             </div>
 
             {/* Dangote Group */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
               <div className="aspect-square bg-gradient-to-br from-red-600/10 to-red-700/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/dangote.svg" 
@@ -472,7 +472,7 @@ const Index = () => {
             </div>
 
             {/* Yoco */}
-            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
+            <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
               <div className="aspect-square bg-gradient-to-br from-teal-500/10 to-teal-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/yoco.svg" 
