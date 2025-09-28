@@ -51,9 +51,19 @@ const JobbyistPro = () => {
       description: "Real-time notifications for jobs matching your exact criteria"
     },
     {
+      icon: <TrendingUp className="h-8 w-8 text-primary" />,
+      title: "AI-Powered Job Matching",
+      description: "Smart algorithms match you with the most relevant opportunities based on your skills and preferences"
+    },
+    {
       icon: <Shield className="h-8 w-8 text-primary" />,
       title: "Profile Verification",
       description: "Verified badge to stand out to employers and recruiters"
+    },
+    {
+      icon: <Clock className="h-8 w-8 text-primary" />,
+      title: "Ad-Free Browsing Experience",
+      description: "Enjoy uninterrupted job searching without any advertisements or distractions"
     },
     {
       icon: <Target className="h-8 w-8 text-primary" />,
