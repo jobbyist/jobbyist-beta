@@ -151,7 +151,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       downloadedAt: new Date().toISOString()
     };
     
-    if (!offlineEpisodes.find((ep: any) => ep.id === currentEpisode.id)) {
+    if (!offlineEpisodes.find((ep: AudioEpisode) => ep.id === currentEpisode.id)) {
       offlineEpisodes.push(episodeData);
       localStorage.setItem('offlineEpisodes', JSON.stringify(offlineEpisodes));
       alert('Episode saved for offline listening!');
