@@ -36,7 +36,7 @@ export const PWAInstallPrompt = () => {
 
     // Check if already installed
     const isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
-                        (window.navigator as any).standalone === true;
+                        (window.navigator as { standalone?: boolean }).standalone === true;
 
     if (isInstalled) {
       return; // Don't show if already installed

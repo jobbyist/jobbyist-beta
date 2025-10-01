@@ -52,7 +52,7 @@ export const ProSignupModal = ({ open, onOpenChange }: ProSignupModalProps) => {
     'Early access to new features',
   ];
 
-  const handlePayPalSuccess = async (details: any, data: any) => {
+  const handlePayPalSuccess = async (details: Record<string, unknown>, data: Record<string, unknown>) => {
     setIsProcessing(true);
     
     try {
@@ -100,7 +100,7 @@ export const ProSignupModal = ({ open, onOpenChange }: ProSignupModalProps) => {
     }
   };
 
-  const handlePayPalError = (error: any) => {
+  const handlePayPalError = (error: Error) => {
     console.error('PayPal error:', error);
     toast({
       title: 'Payment Failed',
