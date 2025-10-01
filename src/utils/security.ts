@@ -1,21 +1,32 @@
 import { createRateLimiter } from './validation';
+import DOMPurify from 'dompurify';
 
 // Rate limiters for different operations
 export const searchRateLimit = createRateLimiter(100, 60 * 1000); // 100 requests per minute
 export const authRateLimit = createRateLimiter(5, 15 * 60 * 1000); // 5 attempts per 15 minutes
 export const applicationRateLimit = createRateLimiter(10, 60 * 60 * 1000); // 10 applications per hour
 
-// Input sanitization functions
+// Input sanitization functions using DOMPurify to prevent DOM-based XSS
+export const sanitizeHTML = (html: string): string => {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [], // Strip all HTML tags by default
+    ALLOWED_ATTR: [],
+    KEEP_CONTENT: true
+  });
+};
+
 export const sanitizeInput = (input: string): string => {
-  return input
+  // Use DOMPurify to sanitize against DOM-based XSS attacks
+  const sanitized = sanitizeHTML(input);
+  return sanitized
     .trim()
-    .replace(/[<>]/g, '') // Remove potential HTML tags
-    .replace(/['"]/g, '') // Remove quotes to prevent injection
     .substring(0, 1000); // Limit length
 };
 
 export const sanitizeEmail = (email: string): string => {
-  return email
+  // Use DOMPurify first to prevent XSS
+  const sanitized = sanitizeHTML(email);
+  return sanitized
     .toLowerCase()
     .trim()
     .replace(/[^a-zA-Z0-9@._-]/g, '') // Only allow valid email characters
@@ -23,9 +34,10 @@ export const sanitizeEmail = (email: string): string => {
 };
 
 export const sanitizeSearchQuery = (query: string): string => {
-  return query
+  // Use DOMPurify to prevent DOM-based XSS in search queries
+  const sanitized = sanitizeHTML(query);
+  return sanitized
     .trim()
-    .replace(/[<>'"&]/g, '') // Remove potentially dangerous characters
     .replace(/\s+/g, ' ') // Normalize whitespace
     .substring(0, 100); // Reasonable search length limit
 };
@@ -317,6 +329,7 @@ export const logSecurityEvent = (event: {
 };
 
 export default {
+  sanitizeHTML,
   sanitizeInput,
   sanitizeEmail,
   sanitizeSearchQuery,

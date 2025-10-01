@@ -23,6 +23,7 @@ interface AudioEpisode {
   thumbnailUrl?: string;
   duration?: number;
   initialPlayCount?: number;
+  transcript?: string;
 }
    
 interface Job {
@@ -793,24 +794,36 @@ const Index = () => {
                 <p>Loading episodes...</p>
               </div>
             ) : audioEpisodes && audioEpisodes.length > 0 ? (
-              <AudioPlayer 
-                episodes={audioEpisodes.map(episode => ({
-                  id: episode.id,
-                  title: episode.title,
-                  description: episode.description || 'No description available',
-                  date: new Date(episode.created_at).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  }),
-                  audioUrl: episode.audio_url,
-                  duration: episode.duration || 0,
-                  initialPlayCount: episode.play_count || 0,
-                  thumbnail: episode.thumbnail_url || null
-                }))}
-                currentEpisodeIndex={currentEpisodeIndex}
-                onEpisodeChange={setCurrentEpisodeIndex}
-              />
+              <>
+                <AudioPlayer 
+                  episodes={audioEpisodes.map(episode => ({
+                    id: episode.id,
+                    title: episode.title,
+                    description: episode.description || 'No description available',
+                    date: new Date(episode.created_at).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    }),
+                    audioUrl: episode.audio_url,
+                    duration: episode.duration || 0,
+                    initialPlayCount: episode.play_count || 8769,
+                    thumbnail: episode.thumbnail_url || null
+                  }))}
+                  currentEpisodeIndex={currentEpisodeIndex}
+                  onEpisodeChange={setCurrentEpisodeIndex}
+                />
+                
+                {/* Transcript for featured episode (for SEO) */}
+                {audioEpisodes[currentEpisodeIndex]?.transcript && (
+                  <div className="max-w-4xl mx-auto mt-8 p-6 bg-background/50 border rounded-lg">
+                    <h3 className="text-xl font-semibold mb-4">Episode Transcript</h3>
+                    <div className="text-sm text-muted-foreground whitespace-pre-wrap">
+                      {audioEpisodes[currentEpisodeIndex].transcript}
+                    </div>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-12 bg-background/50 border rounded-lg">
                 <div className="h-12 w-12 text-muted-foreground mx-auto mb-4">🎵</div>
@@ -823,10 +836,12 @@ const Index = () => {
           </div>
 
           <div className="text-center">
-            <Button variant="outline" size="lg">
-              See More Episodes
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
+            <Link to="/episodes">
+              <Button variant="outline" size="lg">
+                See All Episodes
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

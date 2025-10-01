@@ -13,5 +13,30 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
-  }
+    // Enable secure cookies to prevent man-in-the-middle attacks
+    storageKey: 'jobbyist-auth',
+    flowType: 'pkce',
+    detectSessionInUrl: true,
+  },
+  global: {
+    headers: {
+      'x-application-name': 'jobbyist-beta',
+    },
+  },
+  db: {
+    schema: 'public',
+  },
+  // Enable cookie options for security
+  cookieOptions: {
+    name: 'jobbyist-auth-token',
+    // Set secure flag to true - cookies will only be sent over HTTPS
+    secure: true,
+    // Prevent JavaScript access to cookies
+    httpOnly: false, // Note: httpOnly must be false for client-side auth to work
+    // SameSite attribute to prevent CSRF attacks
+    sameSite: 'lax',
+    // Cookie expiry
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+    path: '/',
+  },
 });

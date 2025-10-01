@@ -17,6 +17,7 @@ interface UploadFormData {
   description: string;
   audioFile: FileList;
   thumbnailFile: FileList;
+  transcript: string;
 }
 
 interface UploadProgress {
@@ -163,7 +164,8 @@ const AdminAudioUpload = () => {
           audio_url: signedData.signedUrl,
           thumbnail_url: thumbnailUrl,
           duration: audioDuration,
-          play_count: 0
+          play_count: 0,
+          transcript: data.transcript || null
         });
 
       if (dbError) throw dbError;
@@ -251,6 +253,20 @@ const AdminAudioUpload = () => {
                   rows={4}
                   {...register('description')}
                 />
+              </div>
+
+              {/* Transcript */}
+              <div className="space-y-2">
+                <Label htmlFor="transcript">Transcript (Optional)</Label>
+                <Textarea
+                  id="transcript"
+                  placeholder="Enter episode transcript for SEO"
+                  rows={6}
+                  {...register('transcript')}
+                />
+                <p className="text-sm text-muted-foreground">
+                  Adding a transcript improves SEO and accessibility
+                </p>
               </div>
 
               {/* Audio File */}
