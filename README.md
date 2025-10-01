@@ -79,7 +79,12 @@ VITE_PAYPAL_CLIENT_ID=your_paypal_client_id
 ### Automatic Deployments
 
 - **Deploy to GitHub Pages**: Automatically deploys on push to `main` branch
+  - Uses Node.js 20 with npm caching for faster builds
+  - Includes all required environment variables for production builds
+  - Separate from CI/CD to ensure clean deployments
 - **CI/CD Pipeline**: Runs tests, linting, and type checking on PRs
+  - Validates code quality before merging
+  - Runs security scans with npm audit and Snyk
 
 ### Supabase Deployment
 
