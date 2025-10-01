@@ -1,0 +1,63 @@
+{
+  "name": "Jobbyist - Africa's Premier Job Discovery Platform",
+  "short_name": "Jobbyist",
+  "description": "Discover thousands of job opportunities across South Africa and Nigeria. Find your dream career with Jobbyist.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0EA5E9",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/JOBBYIST.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Browse Jobs",
+      "short_name": "Jobs",
+      "description": "Browse available job listings",
+      "url": "/jobs",
+      "icons": [
+        {
+          "src": "/JOBBYIST.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "View Companies",
+      "short_name": "Companies",
+      "description": "Browse company directory",
+      "url": "/companies",
+      "icons": [
+        {
+          "src": "/JOBBYIST.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Resume Builder",
+      "short_name": "Resume",
+      "description": "Build your professional resume",
+      "url": "/builder",
+      "icons": [
+        {
+          "src": "/JOBBYIST.svg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
