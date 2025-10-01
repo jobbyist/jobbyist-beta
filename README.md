@@ -114,20 +114,29 @@ The platform includes three edge functions:
 
 ### GitHub Pages
 
-The application is automatically deployed to GitHub Pages on every push to `main`:
+The application is deployed as a Single Page Application (SPA) to GitHub Pages on every push to `main`:
 
 ```sh
 npm run build
-# Builds to dist/ folder
+# Builds to dist/ folder with:
+# - SPA routing support (404.html fallback)
+# - Custom domain configuration (CNAME)
+# - Jekyll processing disabled (.nojekyll)
 # Automatically deployed via GitHub Actions
 ```
 
+**Deployment Features:**
+- ✅ Single Page Application (not a static website)
+- ✅ Custom domain: **jobbyist.africa**
+- ✅ Client-side routing support
+- ✅ Automatic deployments on push to main
+
 ### Custom Domain
 
-To connect a custom domain:
-1. Navigate to repository Settings > Pages
-2. Add your custom domain
-3. Configure DNS records as instructed
+The application is configured with the custom domain **jobbyist.africa**:
+1. CNAME file is automatically included in the build
+2. DNS records should point to GitHub Pages
+3. HTTPS is automatically configured by GitHub Pages
 
 ## Contributing
 
