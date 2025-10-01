@@ -28,6 +28,8 @@ const locations = [
   'Pretoria',
   'Port Elizabeth',
   'Bloemfontein',
+  'Lagos',
+  'Abuja',
   'Remote'
 ];
 

@@ -19,6 +19,7 @@ import Profile from "./pages/Profile";
 import JobbyistPro from "./pages/JobbyistPro";
 import Builder from "./pages/Builder";
 import CompanyProfile from "./pages/CompanyProfile";
+import CompanyDirectory from "./pages/CompanyDirectory";
 import AdminAudioUpload from "./pages/AdminAudioUpload";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -63,6 +64,7 @@ const App = () => {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/pro" element={<JobbyistPro />} />
                   <Route path="/builder" element={<Builder />} />
+                  <Route path="/companies" element={<CompanyDirectory />} />
                   <Route path="/company/:companyId" element={<CompanyProfile />} />
                   <Route path="/admin/audio-upload" element={<AdminAudioUpload />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
