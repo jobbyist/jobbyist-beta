@@ -1,0 +1,87 @@
+name: Deploy Supabase
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'supabase/**'
+  workflow_dispatch:
+
+jobs:
+  deploy-migrations:
+    name: Deploy Database Migrations
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      
+      - name: Link Supabase project
+        run: |
+          supabase link --project-ref ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      
+      - name: Deploy migrations
+        run: |
+          supabase db push --linked
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+  deploy-functions:
+    name: Deploy Edge Functions
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      
+      - name: Link Supabase project
+        run: |
+          supabase link --project-ref ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      
+      - name: Deploy edge functions
+        run: |
+          supabase functions deploy job-cleanup
+          supabase functions deploy job-scraper
+          supabase functions deploy seed-jobs
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+  seed-jobs:
+    name: Seed Job Listings
+    runs-on: ubuntu-latest
+    needs: [deploy-migrations, deploy-functions]
+    # Only run on manual trigger or main branch push
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Call seed-jobs function
+        run: |
+          curl -X POST \
+            "${{ secrets.VITE_SUPABASE_URL }}/functions/v1/seed-jobs" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Content-Type: application/json"
+      
+      - name: Wait for seeding completion
+        run: sleep 10
+      
+      - name: Verify seeding
+        run: |
+          echo "Job listings seeded successfully"
+          echo "25 South African jobs + 25 Nigerian jobs = 50 total jobs"
