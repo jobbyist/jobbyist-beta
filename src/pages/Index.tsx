@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -68,7 +68,7 @@ const Index = () => {
     skills: []
   });
 
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('jobs')
@@ -97,9 +97,9 @@ const Index = () => {
     } finally {
       setLoadingJobs(false);
     }
-  };
+  }, [toast]);
 
-  const fetchSavedJobs = async () => {
+  const fetchSavedJobs = useCallback(async () => {
     if (!user) return;
     
     try {
@@ -113,7 +113,7 @@ const Index = () => {
     } catch (error) {
       console.error('Error fetching saved jobs:', error);
     }
-  };
+  }, [user]);
 
   const runScraper = async () => {
     setScraping(true);
@@ -148,7 +148,7 @@ const Index = () => {
     }
   };
 
-  const fetchAudioEpisodes = async () => {
+  const fetchAudioEpisodes = useCallback(async () => {
     setLoadingEpisodes(true);
     try {
       const { data, error } = await supabase
@@ -187,18 +187,18 @@ const Index = () => {
     } finally {
       setLoadingEpisodes(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchJobs();
     fetchAudioEpisodes();
-  }, []);
+  }, [fetchJobs, fetchAudioEpisodes]);
 
   useEffect(() => {
     if (user) {
       fetchSavedJobs();
     }
-  }, [user]);
+  }, [user, fetchSavedJobs]);
 
   useEffect(() => {
     let filtered = [...jobs];
@@ -262,7 +262,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-8 w-8" />
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-12 w-12" />
               {!isMobile && (
                 <>
                   <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>

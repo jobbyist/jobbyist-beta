@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -80,9 +80,9 @@ const Profile = () => {
     
     fetchProfile();
     fetchSavedJobs();
-  }, [user, navigate]);
+  }, [user, navigate, fetchProfile, fetchSavedJobs]);
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -136,9 +136,9 @@ const Profile = () => {
     } finally {
       setLoadingProfile(false);
     }
-  };
+  }, [user, toast]);
 
-  const fetchSavedJobs = async () => {
+  const fetchSavedJobs = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('saved_jobs')
@@ -170,7 +170,7 @@ const Profile = () => {
     } finally {
       setLoadingSavedJobs(false);
     }
-  };
+  }, [user, toast]);
 
   const handleUpdateProfile = async () => {
     try {

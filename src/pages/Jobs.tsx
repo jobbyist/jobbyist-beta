@@ -78,7 +78,7 @@ const Jobs = () => {
 
 
 
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     try {
       // Get total count first
       const { count } = await supabase
@@ -122,7 +122,7 @@ const Jobs = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, toast]);
 
   const applyFilters = useCallback(() => {
     let filtered = jobs;
@@ -170,7 +170,7 @@ const Jobs = () => {
 
   useEffect(() => {
     fetchJobs();
-  }, [currentPage]);
+  }, [fetchJobs]);
 
   useEffect(() => {
     applyFilters();
