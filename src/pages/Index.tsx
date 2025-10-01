@@ -262,7 +262,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Briefcase className="h-8 w-8 text-primary" />
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-8 w-8" />
               {!isMobile && (
                 <>
                   <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
@@ -679,10 +679,12 @@ const Index = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button size="lg" className="text-lg px-8">
-                Start Free Trial
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </Button>
+              <Link to="/pro">
+                <Button size="lg" className="text-lg px-8">
+                  Find Out More
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+              </Link>
               <p className="text-sm text-muted-foreground">
                 7-day free trial • Cancel anytime • R99/month
               </p>
@@ -754,12 +756,12 @@ const Index = () => {
                   Create a professional, ATS-friendly resume in minutes with our free AI-powered resume builder.
                 </p>
                 
-                <a href="https://profiles.jobbyist.africa" target="_blank" rel="noopener noreferrer">
+                <Link to="/builder">
                   <Button size="lg" className="text-lg px-8 w-full">
                     <FileText className="h-5 w-5 mr-2" />
-                    Start Building Your Resume
+                    How It Works
                   </Button>
-                </a>
+                </Link>
                 
                 <p className="text-sm text-muted-foreground mt-4">
                   100% Free • No Credit Card Required

@@ -30,33 +30,43 @@ const Builder = () => {
   const features = [
     {
       icon: <Sparkles className="h-8 w-8 text-primary" />,
-      title: "AI-Powered",
-      description: "Smart suggestions and content optimization powered by advanced AI"
+      title: "AI-Powered Content",
+      description: "Get smart suggestions and optimized content tailored to your industry and role"
     },
     {
       icon: <Layout className="h-8 w-8 text-primary" />,
       title: "Professional Templates",
-      description: "Choose from multiple ATS-friendly resume templates"
+      description: "Access multiple ATS-friendly templates designed by career experts"
     },
     {
       icon: <Edit3 className="h-8 w-8 text-primary" />,
-      title: "Easy Editing",
-      description: "Intuitive interface to create and edit your resume effortlessly"
+      title: "Easy Customization",
+      description: "Drag-and-drop interface with real-time preview of your changes"
     },
     {
       icon: <Download className="h-8 w-8 text-primary" />,
-      title: "Multiple Formats",
-      description: "Download your resume in PDF, DOCX, or other formats"
+      title: "Export Formats",
+      description: "Download in PDF, DOCX, or plain text format for any application"
     },
     {
       icon: <Target className="h-8 w-8 text-primary" />,
       title: "ATS-Optimized",
-      description: "Ensure your resume passes Applicant Tracking Systems"
+      description: "Ensure your resume passes Applicant Tracking Systems with optimized formatting"
+    },
+    {
+      icon: <Globe className="h-8 w-8 text-primary" />,
+      title: "Africa-Focused",
+      description: "Templates and suggestions tailored for African and international job markets"
+    },
+    {
+      icon: <Zap className="h-8 w-8 text-primary" />,
+      title: "Instant Results",
+      description: "Create a professional resume in minutes, no sign-up required to start"
     },
     {
       icon: <Clock className="h-8 w-8 text-primary" />,
-      title: "Quick & Free",
-      description: "Create a professional resume in minutes, completely free"
+      title: "100% Free Forever",
+      description: "No hidden costs, no premium tiers - all features available to everyone"
     }
   ];
 
@@ -78,7 +88,7 @@ const Builder = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Briefcase className="h-8 w-8 text-primary" />
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-8 w-8" />
               {!isMobile && (
                 <>
                   <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
