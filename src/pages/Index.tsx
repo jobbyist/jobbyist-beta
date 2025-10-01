@@ -749,18 +749,21 @@ const Index = () => {
                   <FileText className="h-10 w-10 text-primary" />
                 </div>
                 
-                <h3 className="text-xl font-semibold mb-4">Upload Your Resume</h3>
+                <h3 className="text-xl font-semibold mb-4">Build Your Resume</h3>
                 <p className="text-muted-foreground mb-6">
-                  Drag & drop your resume or click to browse. We support PDF, DOC, and DOCX formats.
+                  Create a professional, ATS-friendly resume in minutes with our free AI-powered resume builder.
                 </p>
                 
-                <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 hover:border-primary/50 transition-colors cursor-pointer">
-                  <div className="text-muted-foreground">
-                    <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p className="font-medium">Click to upload or drag & drop</p>
-                    <p className="text-sm mt-2">PDF, DOC, DOCX up to 10MB</p>
-                  </div>
-                </div>
+                <a href="https://profiles.jobbyist.africa" target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" className="text-lg px-8 w-full">
+                    <FileText className="h-5 w-5 mr-2" />
+                    Start Building Your Resume
+                  </Button>
+                </a>
+                
+                <p className="text-sm text-muted-foreground mt-4">
+                  100% Free • No Credit Card Required
+                </p>
               </div>
             </div>
           </div>
