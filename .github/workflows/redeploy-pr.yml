@@ -1,0 +1,202 @@
+name: Redeploy Pull Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to redeploy (20-24)'
+        required: true
+        type: choice
+        options:
+          - '24'
+          - '23'
+          - '22'
+          - '21'
+          - '20'
+      deploy_all:
+        description: 'Deploy all 5 PRs sequentially'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages-redeploy-${{ github.event.inputs.pr_number }}'
+  cancel-in-progress: false
+
+jobs:
+  redeploy:
+    name: Redeploy PR #${{ github.event.inputs.pr_number }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine commit SHA
+        id: commit
+        run: |
+          case "${{ github.event.inputs.pr_number }}" in
+            24) echo "sha=6dadd4aaad1dccc3a7ffbb10b1528df510d1d06f" >> $GITHUB_OUTPUT ;;
+            23) echo "sha=0098c4c466178d26a0960544a87897a1b2f4fc89" >> $GITHUB_OUTPUT ;;
+            22) echo "sha=b25c12d9e4beeccab2f20adfa0c2c18f68e112ec" >> $GITHUB_OUTPUT ;;
+            21) echo "sha=adc80f2dd188c83bf4a2897d271db6c05a1960e5" >> $GITHUB_OUTPUT ;;
+            20) echo "sha=34136824913293a58cec744865236ca7f4e630b1" >> $GITHUB_OUTPUT ;;
+            *) echo "Invalid PR number"; exit 1 ;;
+          esac
+      
+      - name: Checkout PR merge commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.commit.outputs.sha }}
+          fetch-depth: 0
+      
+      - name: Display PR information
+        run: |
+          echo "🔄 Redeploying PR #${{ github.event.inputs.pr_number }}"
+          echo "📝 Commit SHA: ${{ steps.commit.outputs.sha }}"
+          echo "📅 Commit date: $(git log -1 --format=%cd)"
+          echo "👤 Author: $(git log -1 --format=%an)"
+          echo "💬 Message: $(git log -1 --format=%s)"
+          echo ""
+          echo "🔧 Build configuration: Current (latest)"
+      
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build with current configuration
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+          VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
+          VITE_APP_ENV: production
+      
+      - name: Setup SPA routing
+        run: |
+          # Create 404.html for client-side routing fallback
+          cp dist/index.html dist/404.html
+          # Verify CNAME file exists for custom domain
+          if [ ! -f dist/CNAME ]; then
+            echo "jobbyist.africa" > dist/CNAME
+          fi
+          # Verify .nojekyll exists to prevent GitHub Pages Jekyll processing
+          if [ ! -f dist/.nojekyll ]; then
+            touch dist/.nojekyll
+          fi
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: Deployment summary
+        run: |
+          echo "✅ Successfully redeployed PR #${{ github.event.inputs.pr_number }}"
+          echo "🌐 URL: ${{ steps.deployment.outputs.page_url }}"
+
+  redeploy-all:
+    name: Redeploy All PRs (20-24)
+    if: github.event.inputs.deploy_all == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Redeploy PR #20
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'redeploy-pr.yml',
+              ref: 'main',
+              inputs: {
+                pr_number: '20',
+                deploy_all: 'false'
+              }
+            });
+            await new Promise(resolve => setTimeout(resolve, 60000)); // Wait 60 seconds
+      
+      - name: Redeploy PR #21
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'redeploy-pr.yml',
+              ref: 'main',
+              inputs: {
+                pr_number: '21',
+                deploy_all: 'false'
+              }
+            });
+            await new Promise(resolve => setTimeout(resolve, 60000));
+      
+      - name: Redeploy PR #22
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'redeploy-pr.yml',
+              ref: 'main',
+              inputs: {
+                pr_number: '22',
+                deploy_all: 'false'
+              }
+            });
+            await new Promise(resolve => setTimeout(resolve, 60000));
+      
+      - name: Redeploy PR #23
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'redeploy-pr.yml',
+              ref: 'main',
+              inputs: {
+                pr_number: '23',
+                deploy_all: 'false'
+              }
+            });
+            await new Promise(resolve => setTimeout(resolve, 60000));
+      
+      - name: Redeploy PR #24
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'redeploy-pr.yml',
+              ref: 'main',
+              inputs: {
+                pr_number: '24',
+                deploy_all: 'false'
+              }
+            });
+      
+      - name: Summary
+        run: |
+          echo "✅ Triggered redeployment of all 5 PRs (#20-24)"
+          echo "⏳ Please check the Actions tab for individual deployment status"

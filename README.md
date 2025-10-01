@@ -138,6 +138,24 @@ The application is configured with the custom domain **jobbyist.africa**:
 2. DNS records should point to GitHub Pages
 3. HTTPS is automatically configured by GitHub Pages
 
+### PR Redeployment
+
+A redeployment workflow is available to redeploy the last 5 pull requests (#20-24) with the current build configuration:
+
+```sh
+# Via GitHub Actions UI:
+Actions → Redeploy Pull Request → Run workflow
+```
+
+**Options:**
+- Deploy individual PRs (select PR number 20-24)
+- Deploy all 5 PRs sequentially (check the batch option)
+
+**Documentation:**
+- 📖 [Quick Reference](./QUICK_REDEPLOY.md) - Fast instructions
+- 📚 [Complete Guide](./REDEPLOY_GUIDE.md) - Detailed documentation
+- 🔧 [Implementation Details](./PR_REDEPLOY_IMPLEMENTATION.md) - Technical overview
+
 ## Contributing
 
 1. Fork the repository
