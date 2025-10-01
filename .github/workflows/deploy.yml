@@ -1,5 +1,5 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Workflow for deploying SPA to GitHub Pages with custom domain
+name: Deploy to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -46,8 +46,18 @@ jobs:
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
           VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
           VITE_APP_ENV: production
-      - name: Create SPA fallback
-        run: cp dist/index.html dist/404.html
+      - name: Setup SPA routing
+        run: |
+          # Create 404.html for client-side routing fallback
+          cp dist/index.html dist/404.html
+          # Verify CNAME file exists for custom domain
+          if [ ! -f dist/CNAME ]; then
+            echo "jobbyist.africa" > dist/CNAME
+          fi
+          # Verify .nojekyll exists to prevent GitHub Pages Jekyll processing
+          if [ ! -f dist/.nojekyll ]; then
+            touch dist/.nojekyll
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
