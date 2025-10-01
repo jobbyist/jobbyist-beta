@@ -102,13 +102,25 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Job Types</h4>
             <ul className="space-y-2">
-              {footerSections.jobTypes.map((item) => (
-                <li key={item}>
-                  <a href={`/jobs?jobType=${encodeURIComponent(item.toLowerCase().replace(' ', '-'))}`} className="text-muted-foreground hover:text-foreground transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              {footerSections.jobTypes.map((item) => {
+                // Handle Remote separately as it's a filter, not a job type
+                if (item === 'Remote') {
+                  return (
+                    <li key={item}>
+                      <a href="/jobs?remote=true" className="text-muted-foreground hover:text-foreground transition-colors">
+                        {item}
+                      </a>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={item}>
+                    <a href={`/jobs?type=${encodeURIComponent(item.toLowerCase().replace(' ', '-'))}`} className="text-muted-foreground hover:text-foreground transition-colors">
+                      {item}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
