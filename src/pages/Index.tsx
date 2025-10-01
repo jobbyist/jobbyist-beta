@@ -262,7 +262,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-12 w-12" />
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-16 w-16 md:h-20 md:w-20" />
               {!isMobile && (
                 <>
                   <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
@@ -315,187 +315,189 @@ const Index = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="py-12 px-4">
+      <section className="py-16 md:py-20 px-4">
         <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
             Africa's Premier Job Discovery & Career Management Platform
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
             Discover the most highly sought after, expertly curated job opportunities offered by world-class, verified companies, employers and recruiters looking for talent across Africa.
           </p>
           
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <div className="flex items-center gap-2">
-              <Briefcase className="h-5 w-5 text-primary" />
-              <span className="font-medium">{jobs.length}+ New Jobs Listed Today</span>
+          <div className="flex flex-wrap justify-center gap-8 mb-8">
+            <div className="flex items-center gap-3 bg-primary/5 px-4 py-2 rounded-full">
+              <Briefcase className="h-6 w-6 text-primary" />
+              <span className="font-semibold">{jobs.length}+ New Jobs Today</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
-              <span className="font-medium">Verified Companies Only</span>
+            <div className="flex items-center gap-3 bg-primary/5 px-4 py-2 rounded-full">
+              <Users className="h-6 w-6 text-primary" />
+              <span className="font-semibold">Verified Companies Only</span>
             </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
-              <span className="font-medium">New Jobs Posted Every Day</span>
+            <div className="flex items-center gap-3 bg-primary/5 px-4 py-2 rounded-full">
+              <TrendingUp className="h-6 w-6 text-primary" />
+              <span className="font-semibold">Daily Updates</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Companies Section */}
-      <section className="py-16 bg-background/50 border-y">
+      <section className="py-20 bg-background/50 border-y">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               Featured Companies
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Discover career opportunities with top employers across South Africa and Nigeria
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
             {/* Deloitte */}
-            <Link to="/company/deloitte" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
-              <div className="aspect-square bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+            <Link to="/company/deloitte" className="bg-background border-2 border-transparent hover:border-primary/20 rounded-xl p-6 hover:shadow-xl transition-all group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/deloitte.svg" 
                   alt="Deloitte logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Deloitte</h3>
+              <h3 className="font-semibold text-center">Deloitte</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
             </Link>
 
             {/* Vodacom Group */}
-            <Link to="/company/vodacom" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
-              <div className="aspect-square bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+            <Link to="/company/vodacom" className="bg-background border-2 border-transparent hover:border-primary/20 rounded-xl p-6 hover:shadow-xl transition-all group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/vodacom.svg" 
                   alt="Vodacom Group logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Vodacom Group</h3>
+              <h3 className="font-semibold text-center">Vodacom Group</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
             </Link>
 
             {/* Access Bank */}
-            <Link to="/company/access-bank" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
-              <div className="aspect-square bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+            <Link to="/company/access-bank" className="bg-background border-2 border-transparent hover:border-primary/20 rounded-xl p-6 hover:shadow-xl transition-all group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/access-bank.svg" 
                   alt="Access Bank logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Access Bank</h3>
+              <h3 className="font-semibold text-center">Access Bank</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Nigeria</p>
             </Link>
 
             {/* Capitec Bank */}
-            <Link to="/company/capitec" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
-              <div className="aspect-square bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+            <Link to="/company/capitec" className="bg-background border-2 border-transparent hover:border-primary/20 rounded-xl p-6 hover:shadow-xl transition-all group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/capitec.svg" 
                   alt="Capitec Bank logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Capitec Bank</h3>
+              <h3 className="font-semibold text-center">Capitec Bank</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
             </Link>
 
             {/* Amazon */}
-            <Link to="/company/amazon" className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer">
-              <div className="aspect-square bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+            <Link to="/company/amazon" className="bg-background border-2 border-transparent hover:border-primary/20 rounded-xl p-6 hover:shadow-xl transition-all group cursor-pointer">
+              <div className="aspect-square bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/amazon.svg" 
                   alt="Amazon logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Amazon</h3>
+              <h3 className="font-semibold text-center">Amazon</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
             </Link>
 
             {/* IBM */}
             <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
-              <div className="aspect-square bg-gradient-to-br from-blue-600/10 to-indigo-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+              <div className="aspect-square bg-gradient-to-br from-blue-600/10 to-indigo-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/ibm.svg" 
                   alt="IBM logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">IBM</h3>
+              <h3 className="font-semibold text-center">IBM</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
             </div>
 
             {/* Woolworths Holdings */}
             <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
-              <div className="aspect-square bg-gradient-to-br from-green-600/10 to-emerald-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+              <div className="aspect-square bg-gradient-to-br from-green-600/10 to-emerald-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/woolworths.svg" 
                   alt="Woolworths logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Woolworths</h3>
+              <h3 className="font-semibold text-center">Woolworths</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
             </div>
 
             {/* Automattic */}
             <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
-              <div className="aspect-square bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+              <div className="aspect-square bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/automattic.svg" 
                   alt="Automattic logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Automattic</h3>
+              <h3 className="font-semibold text-center">Automattic</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Global</p>
             </div>
 
             {/* Dangote Group */}
             <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
-              <div className="aspect-square bg-gradient-to-br from-red-600/10 to-red-700/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+              <div className="aspect-square bg-gradient-to-br from-red-600/10 to-red-700/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/dangote.svg" 
                   alt="Dangote Group logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Dangote Group</h3>
+              <h3 className="font-semibold text-center">Dangote Group</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">Nigeria</p>
             </div>
 
             {/* Yoco */}
             <div className="bg-background border rounded-lg p-6 hover:shadow-md transition-shadow group cursor-pointer opacity-75">
-              <div className="aspect-square bg-gradient-to-br from-teal-500/10 to-teal-600/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
+              <div className="aspect-square bg-gradient-to-br from-teal-500/10 to-teal-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden">
                 <img 
                   src="/images/company-logos/yoco.svg" 
                   alt="Yoco logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain p-4"
                 />
               </div>
-              <h3 className="font-semibold text-center text-sm">Yoco</h3>
+              <h3 className="font-semibold text-center">Yoco</h3>
               <p className="text-xs text-muted-foreground text-center mt-1">South Africa</p>
             </div>
           </div>
 
-          <div className="text-center mt-8">
-            <Button variant="outline" size="lg">
-              View All Companies
-              <ArrowRight className="h-4 w-4 ml-2" />
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg" className="text-base px-8 py-6" asChild>
+              <Link to="/companies">
+                View All Companies
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Link>
             </Button>
           </div>
         </div>
       </section>
 
       {/* Recruitment Suite Section */}
-      <section className="py-16 bg-gradient-to-r from-primary/5 via-background to-secondary/5">
+      <section className="py-20 bg-gradient-to-r from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">

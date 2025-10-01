@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AdPlaceholderProps {
   size: 'banner' | 'rectangle' | 'mobile' | 'skyscraper' | 'square';
@@ -18,8 +20,46 @@ const adSizes = {
 const AdPlaceholder = ({ size, className }: AdPlaceholderProps) => {
   const adConfig = adSizes[size];
   const adRef = useRef<HTMLModElement>(null);
+  const { user } = useAuth();
+  const [isProUser, setIsProUser] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    const checkProStatus = async () => {
+      if (!user) {
+        setIsProUser(false);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('is_pro_user')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error checking pro status:', error);
+          setIsProUser(false);
+        } else {
+          setIsProUser(data?.is_pro_user || false);
+        }
+      } catch (error) {
+        console.error('Error checking pro status:', error);
+        setIsProUser(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkProStatus();
+  }, [user]);
+  
+  useEffect(() => {
+    // Don't show ads for Pro users
+    if (isProUser || loading) return;
+    
     try {
       if (adRef.current && window.adsbygoogle) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -27,7 +67,12 @@ const AdPlaceholder = ({ size, className }: AdPlaceholderProps) => {
     } catch (err) {
       console.error('AdSense error:', err);
     }
-  }, []);
+  }, [isProUser, loading]);
+  
+  // Don't render ads for Pro users
+  if (isProUser || loading) {
+    return null;
+  }
   
   return (
     <div 

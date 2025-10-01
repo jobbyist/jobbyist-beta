@@ -66,7 +66,7 @@ const Preloader = ({ onLoadingComplete }: PreloaderProps) => {
         <img 
           src="/JOBBYIST.svg" 
           alt="Jobbyist Logo" 
-          className="h-32 w-32 md:h-40 md:w-40"
+          className="h-48 w-48 md:h-64 md:w-64"
         />
       </div>
 

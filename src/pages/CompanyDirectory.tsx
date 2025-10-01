@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Building2 } from 'lucide-react';
 import { useState } from 'react';
+import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
 
 interface Company {
   id: string;
@@ -14,6 +15,7 @@ interface Company {
 
 const CompanyDirectory = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isRecruitmentModalOpen, setIsRecruitmentModalOpen] = useState(false);
 
   const companies: Company[] = [
     {
@@ -150,11 +152,14 @@ const CompanyDirectory = () => {
               Click on any company to view their profile, learn more about their culture, and browse their current job openings.
             </p>
             <p className="text-muted-foreground">
-              Are you an employer looking to be featured? <a href="/pro" className="text-primary hover:underline">Upgrade to Pro</a> to showcase your company and attract top talent.
+              Are you an employer looking to be featured? <button onClick={() => setIsRecruitmentModalOpen(true)} className="text-primary hover:underline cursor-pointer">Try Recruitment Suite</button> to showcase your company and attract top talent.
             </p>
           </CardContent>
         </Card>
       </div>
+
+      {/* Recruitment Suite Modal */}
+      <RecruitmentSuiteModal open={isRecruitmentModalOpen} onOpenChange={setIsRecruitmentModalOpen} />
     </div>
   );
 };
