@@ -14,19 +14,19 @@ const Footer = () => {
     locations: [
       'Johannesburg',
       'Cape Town', 
-      'Lagos',
-      'Pretoria'
+      'Abuja',
+      'Lagos'
     ],
     jobTypes: [
-      'Full-time Jobs',
-      'Part-time Jobs',
-      'Remote Jobs',
-      'Contract Jobs'
+      'Full Time',
+      'Part Time',
+      'Remote',
+      'Contract'
     ],
     services: [
-      'Job Search',
-      'Resume Audit',
+      'Browse Job Listings',
       'Upgrade To Pro',
+      'Resume/CV Builder',
       'Company Directory'
     ],
     legal: [
@@ -91,7 +91,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {footerSections.locations.map((item) => (
                 <li key={item}>
-                  <a href={`/jobs/${item.toLowerCase().replace(' ', '-')}`} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href={`/jobs?location=${encodeURIComponent(item)}`} className="text-muted-foreground hover:text-foreground transition-colors">
                     {item}
                   </a>
                 </li>
@@ -104,7 +104,7 @@ const Footer = () => {
             <ul className="space-y-2">
               {footerSections.jobTypes.map((item) => (
                 <li key={item}>
-                  <a href={`/jobs/${item.toLowerCase().replace(/[\s-]/g, '-')}`} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href={`/jobs?jobType=${encodeURIComponent(item.toLowerCase().replace(' ', '-'))}`} className="text-muted-foreground hover:text-foreground transition-colors">
                     {item}
                   </a>
                 </li>
@@ -116,27 +116,34 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">Services</h4>
             <ul className="space-y-2">
               {footerSections.services.map((item) => {
-                if (item === 'Job Search') {
+                if (item === 'Browse Job Listings') {
                   return (
                     <li key={item}>
-                      <button 
-                        onClick={() => setIsSearchModalOpen(true)}
-                        className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
-                      >
-                        <Search className="h-4 w-4" />
+                      <a href="/jobs" className="text-muted-foreground hover:text-foreground transition-colors">
                         {item}
-                      </button>
+                      </a>
                     </li>
                   );
-                } else if (item === 'Resume Audit') {
+                } else if (item === 'Upgrade To Pro') {
                   return (
                     <li key={item}>
-                      <a 
-                        href="https://audit.jobbyist.africa" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                      >
+                      <a href="/pro" className="text-muted-foreground hover:text-foreground transition-colors">
+                        {item}
+                      </a>
+                    </li>
+                  );
+                } else if (item === 'Resume/CV Builder') {
+                  return (
+                    <li key={item}>
+                      <a href="/builder" className="text-muted-foreground hover:text-foreground transition-colors">
+                        {item}
+                      </a>
+                    </li>
+                  );
+                } else if (item === 'Company Directory') {
+                  return (
+                    <li key={item}>
+                      <a href="/companies" className="text-muted-foreground hover:text-foreground transition-colors">
                         {item}
                       </a>
                     </li>
