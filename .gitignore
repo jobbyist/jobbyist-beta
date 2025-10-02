@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Large audio files (should be in Supabase storage instead)
+public/audio/*.mp3
+public/audio/*.wav
+public/audio/*.ogg

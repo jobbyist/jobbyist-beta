@@ -43,12 +43,40 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(() => {
+    // Load volume from localStorage
+    const savedVolume = localStorage.getItem('audioPlayerVolume');
+    return savedVolume ? parseFloat(savedVolume) : 1;
+  });
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisliked, setIsDisliked] = useState(false);
-  const [playCount, setPlayCount] = useState(episodes[currentEpisodeIndex]?.initialPlayCount || 2500);
+  const [likeCount, setLikeCount] = useState(() => {
+    // Load like count from localStorage
+    const savedLikes = localStorage.getItem(`episode-${episodes[currentEpisodeIndex]?.id}-likes`);
+    return savedLikes ? parseInt(savedLikes, 10) : 0;
+  });
+  const [isLiked, setIsLiked] = useState(() => {
+    // Load like state from localStorage
+    const saved = localStorage.getItem(`episode-${episodes[currentEpisodeIndex]?.id}-liked`);
+    return saved === 'true';
+  });
+  const [isDisliked, setIsDisliked] = useState(() => {
+    // Load dislike state from localStorage
+    const saved = localStorage.getItem(`episode-${episodes[currentEpisodeIndex]?.id}-disliked`);
+    return saved === 'true';
+  });
+  const [playCount, setPlayCount] = useState(() => {
+    // Load play count from localStorage or use 8769 as starting point
+    const episodeId = episodes[currentEpisodeIndex]?.id;
+    const savedCount = localStorage.getItem(`episode-${episodeId}-playCount`);
+    if (savedCount) {
+      return parseInt(savedCount, 10);
+    }
+    // Start from 8769 or use initialPlayCount if higher
+    const initialCount = episodes[currentEpisodeIndex]?.initialPlayCount || 0;
+    return Math.max(8769, initialCount);
+  });
   const [showTipDialog, setShowTipDialog] = useState(false);
+  const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   
   const currentEpisode = episodes[currentEpisodeIndex];
@@ -60,6 +88,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     const updateTime = () => setCurrentTime(audio.currentTime);
     const handleEnded = () => {
       setIsPlaying(false);
+      setHasStartedPlaying(false);
       if (currentEpisodeIndex < episodes.length - 1) {
         onEpisodeChange?.(currentEpisodeIndex + 1);
       }
@@ -76,10 +105,28 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     };
   }, [volume, playbackRate, currentEpisodeIndex, episodes.length, onEpisodeChange]);
 
+  // Update states when episode changes
   useEffect(() => {
-    setPlayCount(episodes[currentEpisodeIndex]?.initialPlayCount || 2500);
-    setIsLiked(false);
-    setIsDisliked(false);
+    const episodeId = episodes[currentEpisodeIndex]?.id;
+    
+    // Load saved play count
+    const savedCount = localStorage.getItem(`episode-${episodeId}-playCount`);
+    if (savedCount) {
+      setPlayCount(parseInt(savedCount, 10));
+    } else {
+      const initialCount = episodes[currentEpisodeIndex]?.initialPlayCount || 0;
+      setPlayCount(Math.max(8769, initialCount));
+    }
+    
+    // Load like/dislike state
+    const savedLiked = localStorage.getItem(`episode-${episodeId}-liked`);
+    const savedDisliked = localStorage.getItem(`episode-${episodeId}-disliked`);
+    const savedLikes = localStorage.getItem(`episode-${episodeId}-likes`);
+    
+    setIsLiked(savedLiked === 'true');
+    setIsDisliked(savedDisliked === 'true');
+    setLikeCount(savedLikes ? parseInt(savedLikes, 10) : 0);
+    setHasStartedPlaying(false);
   }, [currentEpisodeIndex, episodes]);
 
   const togglePlay = () => {
@@ -90,8 +137,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       audio.pause();
     } else {
       audio.play();
-      if (currentTime === 0) {
-        setPlayCount(prev => prev + 1);
+      // Only increment play count once per session when user starts playing
+      if (!hasStartedPlaying) {
+        const newCount = playCount + 1;
+        setPlayCount(newCount);
+        setHasStartedPlaying(true);
+        // Save to localStorage
+        const episodeId = episodes[currentEpisodeIndex]?.id;
+        localStorage.setItem(`episode-${episodeId}-playCount`, newCount.toString());
       }
     }
     setIsPlaying(!isPlaying);
@@ -107,10 +160,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const handleVolumeChange = (value: number[]) => {
-    setVolume(value[0] / 100);
+    const newVolume = value[0] / 100;
+    setVolume(newVolume);
+    // Save volume to localStorage
+    localStorage.setItem('audioPlayerVolume', newVolume.toString());
   };
 
-  const changeSpeed = (newRate: number) => {
+  const changeSpeed = (increment: number) => {
+    const newRate = Math.max(0.5, Math.min(2.0, playbackRate + increment));
     setPlaybackRate(newRate);
   };
 
@@ -134,13 +191,47 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const handleLike = () => {
-    setIsLiked(!isLiked);
-    if (isDisliked) setIsDisliked(false);
+    const episodeId = episodes[currentEpisodeIndex]?.id;
+    const newLikedState = !isLiked;
+    
+    setIsLiked(newLikedState);
+    
+    // Update like count
+    let newLikeCount = likeCount;
+    if (newLikedState) {
+      newLikeCount = likeCount + 1;
+      if (isDisliked) {
+        setIsDisliked(false);
+        localStorage.setItem(`episode-${episodeId}-disliked`, 'false');
+      }
+    } else {
+      newLikeCount = Math.max(0, likeCount - 1);
+    }
+    
+    setLikeCount(newLikeCount);
+    
+    // Save to localStorage indefinitely
+    localStorage.setItem(`episode-${episodeId}-liked`, newLikedState.toString());
+    localStorage.setItem(`episode-${episodeId}-likes`, newLikeCount.toString());
   };
 
   const handleDislike = () => {
-    setIsDisliked(!isDisliked);
-    if (isLiked) setIsLiked(false);
+    const episodeId = episodes[currentEpisodeIndex]?.id;
+    const newDislikedState = !isDisliked;
+    
+    setIsDisliked(newDislikedState);
+    
+    if (newDislikedState && isLiked) {
+      // Remove like if user dislikes
+      setIsLiked(false);
+      const newLikeCount = Math.max(0, likeCount - 1);
+      setLikeCount(newLikeCount);
+      localStorage.setItem(`episode-${episodeId}-liked`, 'false');
+      localStorage.setItem(`episode-${episodeId}-likes`, newLikeCount.toString());
+    }
+    
+    // Save dislike state to localStorage indefinitely
+    localStorage.setItem(`episode-${episodeId}-disliked`, newDislikedState.toString());
   };
 
   const downloadForOffline = () => {
@@ -224,7 +315,12 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             <SkipBack className="h-4 w-4" />
           </Button>
           
-          <Button variant="ghost" size="sm" onClick={() => skipTime(-10)}>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => changeSpeed(-0.25)}
+            title={`Slow down (current: ${playbackRate.toFixed(2)}x)`}
+          >
             <Rewind className="h-4 w-4" />
           </Button>
           
@@ -232,7 +328,12 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
           </Button>
           
-          <Button variant="ghost" size="sm" onClick={() => skipTime(10)}>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => changeSpeed(0.25)}
+            title={`Speed up (current: ${playbackRate.toFixed(2)}x)`}
+          >
             <FastForward className="h-4 w-4" />
           </Button>
           
@@ -244,6 +345,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           >
             <SkipForward className="h-4 w-4" />
           </Button>
+        </div>
+
+        {/* Playback Speed Display */}
+        <div className="text-center text-sm text-muted-foreground mb-4">
+          Playback Speed: {playbackRate.toFixed(2)}x
         </div>
 
         {/* Secondary Controls - Mobile Optimized */}
@@ -264,8 +370,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               variant={isLiked ? "default" : "ghost"}
               size="sm"
               onClick={handleLike}
+              className="flex items-center gap-1"
             >
               <ThumbsUp className="h-4 w-4" />
+              {likeCount > 0 && <span className="text-xs">{likeCount}</span>}
             </Button>
             
             <Button
@@ -296,7 +404,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           <div className="mt-6 p-4 border rounded-lg bg-muted/50">
             <h4 className="font-medium mb-3">Support the Podcast</h4>
             <PayPalScriptProvider options={{ 
-              clientId: "your-paypal-client-id",
+              clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb", // Use environment variable or sandbox for dev
               currency: "USD"
             }}>
               <PayPalButtons

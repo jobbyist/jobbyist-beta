@@ -9,10 +9,24 @@ const Preloader = ({ onLoadingComplete }: PreloaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    let contentLoaded = false;
+    
+    // Listen for window load event (when all content including images is loaded)
+    const handleLoad = () => {
+      contentLoaded = true;
+    };
+    
+    if (document.readyState === 'complete') {
+      contentLoaded = true;
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+    
     // Simulate loading progress
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
+        // If content is loaded, rapidly complete the progress
+        if (contentLoaded && prev >= 90) {
           clearInterval(interval);
           setTimeout(() => {
             setIsVisible(false);
@@ -20,13 +34,22 @@ const Preloader = ({ onLoadingComplete }: PreloaderProps) => {
           }, 300);
           return 100;
         }
-        // Increase progress with varying speed
-        const increment = Math.random() * 15 + 5;
-        return Math.min(prev + increment, 100);
+        
+        // Normal loading progress - slow down as we get closer to 90%
+        const maxProgress = contentLoaded ? 100 : 90;
+        if (prev >= maxProgress) {
+          return prev;
+        }
+        
+        const increment = contentLoaded ? 20 : Math.random() * 10 + 3;
+        return Math.min(prev + increment, maxProgress);
       });
     }, 150);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('load', handleLoad);
+    };
   }, [onLoadingComplete]);
 
   if (!isVisible) {
@@ -43,7 +66,7 @@ const Preloader = ({ onLoadingComplete }: PreloaderProps) => {
         <img 
           src="/JOBBYIST.svg" 
           alt="Jobbyist Logo" 
-          className="h-24 w-24 md:h-32 md:w-32"
+          className="h-48 w-48 md:h-64 md:w-64"
         />
       </div>
 

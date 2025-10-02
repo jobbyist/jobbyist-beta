@@ -79,7 +79,12 @@ VITE_PAYPAL_CLIENT_ID=your_paypal_client_id
 ### Automatic Deployments
 
 - **Deploy to GitHub Pages**: Automatically deploys on push to `main` branch
+  - Uses Node.js 20 with npm caching for faster builds
+  - Includes all required environment variables for production builds
+  - Separate from CI/CD to ensure clean deployments
 - **CI/CD Pipeline**: Runs tests, linting, and type checking on PRs
+  - Validates code quality before merging
+  - Runs security scans with npm audit and Snyk
 
 ### Supabase Deployment
 
@@ -109,20 +114,29 @@ The platform includes three edge functions:
 
 ### GitHub Pages
 
-The application is automatically deployed to GitHub Pages on every push to `main`:
+The application is deployed as a Single Page Application (SPA) to GitHub Pages on every push to `main`:
 
 ```sh
 npm run build
-# Builds to dist/ folder
+# Builds to dist/ folder with:
+# - SPA routing support (404.html fallback)
+# - Custom domain configuration (CNAME)
+# - Jekyll processing disabled (.nojekyll)
 # Automatically deployed via GitHub Actions
 ```
 
+**Deployment Features:**
+- ✅ Single Page Application (not a static website)
+- ✅ Custom domain: **jobbyist.africa**
+- ✅ Client-side routing support
+- ✅ Automatic deployments on push to main
+
 ### Custom Domain
 
-To connect a custom domain:
-1. Navigate to repository Settings > Pages
-2. Add your custom domain
-3. Configure DNS records as instructed
+The application is configured with the custom domain **jobbyist.africa**:
+1. CNAME file is automatically included in the build
+2. DNS records should point to GitHub Pages
+3. HTTPS is automatically configured by GitHub Pages
 
 ## Contributing
 

@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import AdPlaceholder from '@/components/AdPlaceholder';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useState } from 'react';
+import { ProSignupModal } from '@/components/ProSignupModal';
 import { 
   Crown, 
   Briefcase, 
@@ -28,6 +30,7 @@ import Footer from '@/components/Footer';
 const JobbyistPro = () => {
   const { user, signOut } = useAuth();
   const isMobile = useIsMobile();
+  const [isProModalOpen, setIsProModalOpen] = useState(false);
 
   const features = [
     {
@@ -217,12 +220,12 @@ const JobbyistPro = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button size="lg" className="text-lg px-8">
-              Start 7-Day Free Trial
+            <Button size="lg" className="text-lg px-8" onClick={() => setIsProModalOpen(true)}>
+              Subscribe to Pro
               <ArrowRight className="h-5 w-5 ml-2" />
             </Button>
             <p className="text-sm text-muted-foreground">
-              No credit card required • Cancel anytime
+              Starting at $4.99/month • Cancel anytime
             </p>
           </div>
 
@@ -465,8 +468,8 @@ const JobbyistPro = () => {
             Start your free trial today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="text-lg px-8">
-              Start Your Free Trial
+            <Button size="lg" className="text-lg px-8" onClick={() => setIsProModalOpen(true)}>
+              Subscribe to Pro
               <ArrowRight className="h-5 w-5 ml-2" />
             </Button>
             <Button variant="outline" size="lg" asChild>
@@ -474,7 +477,7 @@ const JobbyistPro = () => {
             </Button>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            7-day free trial • No credit card required • Cancel anytime
+            Starting at $4.99/month • Cancel anytime
           </p>
         </div>
       </section>
@@ -487,6 +490,9 @@ const JobbyistPro = () => {
       </div>
 
       <Footer />
+      
+      {/* Pro Signup Modal */}
+      <ProSignupModal open={isProModalOpen} onOpenChange={setIsProModalOpen} />
     </div>
   );
 };

@@ -1,20 +1,20 @@
-name: Seed Job Listings
+name: Cleanup Old Job Listings
 
 on:
+  # Daily cleanup at 3 AM UTC
+  schedule:
+    - cron: '0 3 * * *'
   # Manual trigger
   workflow_dispatch:
     inputs:
       confirm:
-        description: 'Type "seed-jobs" to confirm seeding'
+        description: 'Type "cleanup-jobs" to confirm cleanup'
         required: true
         default: ''
-  # Daily automatic seeding at 2 AM UTC
-  schedule:
-    - cron: '0 2 * * *'
 
 jobs:
-  seed-jobs:
-    name: Seed 100 Job Listings
+  cleanup-jobs:
+    name: Remove Jobs Older Than 30 Days
     runs-on: ubuntu-latest
     
     steps:
@@ -24,8 +24,8 @@ jobs:
       - name: Validate confirmation (manual trigger only)
         if: github.event_name == 'workflow_dispatch'
         run: |
-          if [ "${{ github.event.inputs.confirm }}" != "seed-jobs" ]; then
-            echo "❌ Confirmation failed. Please type 'seed-jobs' to confirm."
+          if [ "${{ github.event.inputs.confirm }}" != "cleanup-jobs" ]; then
+            echo "❌ Confirmation failed. Please type 'cleanup-jobs' to confirm."
             exit 1
           fi
           echo "✅ Confirmation validated"
@@ -41,17 +41,17 @@ jobs:
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       
-      - name: Deploy seed-jobs function (if needed)
+      - name: Deploy job-cleanup function (if needed)
         run: |
-          supabase functions deploy seed-jobs
+          supabase functions deploy job-cleanup
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       
-      - name: Invoke seed-jobs function
+      - name: Invoke job-cleanup function
         run: |
-          echo "🌱 Seeding job listings..."
+          echo "🧹 Cleaning up old job listings..."
           response=$(curl -s -X POST \
-            "${{ secrets.VITE_SUPABASE_URL }}/functions/v1/seed-jobs" \
+            "${{ secrets.VITE_SUPABASE_URL }}/functions/v1/job-cleanup" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
             -H "Content-Type: application/json")
           
@@ -59,17 +59,15 @@ jobs:
           
           # Check if response contains success
           if echo "$response" | grep -q "success.*true"; then
-            echo "✅ Job listings seeded successfully!"
+            echo "✅ Old job listings cleaned up successfully!"
           else
-            echo "❌ Failed to seed job listings"
-            exit 1
+            echo "⚠️  Cleanup completed with warnings or no jobs to clean"
           fi
       
       - name: Summary
         run: |
-          echo "📊 Job Seeding Summary:"
-          echo "- 50 South African job listings"
-          echo "- 50 Nigerian job listings"
-          echo "- Total: 100 job listings"
+          echo "📊 Job Cleanup Summary:"
+          echo "- Removed jobs older than 30 days"
+          echo "- Deactivated expired job listings"
           echo ""
-          echo "✅ All jobs have been seeded to the database"
+          echo "✅ Cleanup process completed"

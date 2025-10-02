@@ -8,14 +8,17 @@ This document describes the GitHub Actions workflows configured for the Jobbyist
 
 **Trigger**: Automatic on push to `main` branch, or manual via workflow_dispatch
 
-**Purpose**: Builds and deploys the application to GitHub Pages
+**Purpose**: Builds and deploys the Single Page Application (SPA) to GitHub Pages with custom domain (jobbyist.africa)
 
 **Steps**:
 1. Checkout code
-2. Setup Node.js 18
-3. Install dependencies
-4. Build application
-5. Create SPA fallback (404.html)
+2. Setup Node.js 20 (with npm caching)
+3. Install dependencies (using npm ci for deterministic builds)
+4. Build application with environment variables
+5. Setup SPA routing:
+   - Create 404.html for client-side routing fallback
+   - Verify CNAME file for custom domain (jobbyist.africa)
+   - Verify .nojekyll file to prevent Jekyll processing
 6. Upload to GitHub Pages
 7. Deploy to GitHub Pages
 
@@ -24,6 +27,13 @@ This document describes the GitHub Actions workflows configured for the Jobbyist
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 - `VITE_SUPABASE_PROJECT_ID`
 - `VITE_PAYPAL_CLIENT_ID`
+- `VITE_APP_ENV` (set to 'production')
+
+**Key Features**:
+- Deploys as a Single Page Application (SPA), not a static website
+- Custom domain support (jobbyist.africa) via CNAME
+- Client-side routing support via 404.html fallback
+- Prevents GitHub Pages Jekyll processing via .nojekyll file
 
 ### 2. CI/CD Pipeline (`ci.yml`)
 
@@ -33,11 +43,12 @@ This document describes the GitHub Actions workflows configured for the Jobbyist
 
 **Jobs**:
 1. **test**: Runs type checking, linting, and tests (Node 18.x and 20.x)
-2. **build**: Builds the application
+2. **build**: Builds the application to verify it compiles successfully
 3. **security-scan**: Runs npm audit and Snyk security scan
 4. **deploy-staging**: Deploys to staging (on develop branch)
-5. **deploy-production**: Deploys to production (on main branch)
-6. **notify**: Sends deployment status notification
+5. **notify**: Sends deployment status notification
+
+**Note**: The CI/CD pipeline validates code quality and security. Actual deployment to production is handled by the separate `deploy.yml` workflow to avoid conflicts.
 
 ### 3. Deploy Supabase (`supabase-deploy.yml`)
 

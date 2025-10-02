@@ -51,8 +51,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-8 w-8" />
-              <h3 className="text-2xl font-bold text-foreground">Jobbyist</h3>
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-16 w-16 md:h-20 md:w-20" />
               <Badge variant="secondary" className="ml-2">Beta</Badge>
             </div>
             <p className="text-muted-foreground mb-6 max-w-md">
