@@ -65,6 +65,34 @@ The application already has a properly configured Supabase client at `src/integr
 
 No code changes were needed to the Supabase client as it was already properly implemented to use environment variables.
 
+### Supabase Edge Functions Integration
+
+The application uses three Supabase Edge Functions that work seamlessly with Vercel deployments:
+
+1. **job-scraper** - Scrapes and imports job listings from partner sites
+2. **job-cleanup** - Removes old job listings (runs daily at 3 AM UTC)
+3. **seed-jobs** - Seeds database with sample job listings
+
+**Deployment Architecture:**
+- Frontend (React app) is deployed to Vercel
+- Edge Functions are deployed to Supabase via GitHub Actions (`.github/workflows/supabase-deploy.yml`)
+- Frontend calls Edge Functions via HTTP API
+- Edge Functions process requests and interact with the Supabase database
+
+**Note:** Edge Functions are NOT deployed to Vercel. They run on Supabase infrastructure and are called by the frontend via HTTP requests.
+
+### Database Migrations Integration
+
+Database migrations are automatically applied via GitHub Actions when changes are pushed to `main` branch:
+
+- Location: `supabase/migrations/`
+- Deployment: `.github/workflows/supabase-deploy.yml`
+- Includes: Schema definitions, RLS policies, storage configuration, initial data
+
+**Note:** Migrations are NOT run by Vercel. They are applied directly to the Supabase database via the Supabase CLI in GitHub Actions.
+
+For detailed information about how Edge Functions and migrations integrate with Vercel, see **[VERCEL_SUPABASE_INTEGRATION.md](VERCEL_SUPABASE_INTEGRATION.md)**.
+
 ## Testing the Connection
 
 The Supabase connection can be tested using the browser console:
@@ -129,8 +157,10 @@ The configuration has been tested and verified:
 
 1. `.env` - Updated with new Supabase credentials
 2. `.env.example` - Updated with new Supabase credentials
-3. `vercel.json` - Created with Vercel configuration
-4. `VERCEL_SETUP.md` - Created with deployment documentation
-5. `README.md` - Updated with Vercel information
+3. `vercel.json` - Created with Vercel configuration (updated with GitHub integration)
+4. `VERCEL_SETUP.md` - Created with deployment documentation (updated with Edge Functions and migrations information)
+5. `VERCEL_SUPABASE_INTEGRATION.md` - Comprehensive guide for Supabase integration with Vercel
+6. `VERCEL_CONFIGURATION_SUMMARY.md` - This file (updated with Edge Functions and migrations details)
+7. `README.md` - Updated with Vercel information
 
 No code changes were required as the application was already properly set up to use environment variables for Supabase configuration.
