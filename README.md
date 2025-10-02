@@ -99,6 +99,10 @@ For production deployment, all secrets must be configured in **GitHub Secrets**.
 
 ## Backend Configuration
 
+### 🚀 Quick Start
+
+**New to backend setup?** Start here: **[QUICK_START_BACKEND.md](QUICK_START_BACKEND.md)** - 5-step guide (~15 minutes)
+
 ### 🔐 Setting Up Secrets
 
 The platform requires proper configuration of GitHub Secrets for:
@@ -107,10 +111,11 @@ The platform requires proper configuration of GitHub Secrets for:
 - ✅ PayPal Payment Integration (Pro subscriptions)
 - ✅ Optional: AI Chatbot, Error Tracking, Analytics
 
-**Follow these guides in order**:
-1. **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - Step-by-step setup instructions
-2. **[BACKEND_VERIFICATION_CHECKLIST.md](BACKEND_VERIFICATION_CHECKLIST.md)** - Verify everything works
-3. **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete secrets reference
+**Detailed Setup Guides**:
+1. **[QUICK_START_BACKEND.md](QUICK_START_BACKEND.md)** - ⚡ Quick 5-step setup (START HERE)
+2. **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - Detailed step-by-step instructions
+3. **[BACKEND_VERIFICATION_CHECKLIST.md](BACKEND_VERIFICATION_CHECKLIST.md)** - Verify everything works
+4. **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete secrets reference
 
 ### ✅ Verification
 
