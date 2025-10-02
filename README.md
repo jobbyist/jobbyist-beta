@@ -10,10 +10,13 @@ Jobbyist is a comprehensive job discovery and career management platform designe
 ### 📚 Documentation
 
 For comprehensive setup and deployment information, see:
+- **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - 🔐 **START HERE**: Step-by-step guide for configuring GitHub Secrets
+- **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete reference for all required and optional secrets
+- **[GITHUB_SECRETS.md](GITHUB_SECRETS.md)** - Template and security guidelines for secrets configuration
 - **[COMPLETE_CONFIGURATION_SUMMARY.md](COMPLETE_CONFIGURATION_SUMMARY.md)** - Complete overview of build and deployment
-- **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Guide to configuring GitHub secrets
 - **[WORKFLOWS.md](WORKFLOWS.md)** - Detailed workflow documentation
 - **[DEPLOYMENT_CONFIGURATION.md](DEPLOYMENT_CONFIGURATION.md)** - Deployment details and troubleshooting
+- **[PRODUCTION_GUIDE.md](PRODUCTION_GUIDE.md)** - Production deployment and optimization guide
 
 ### Key Features
 

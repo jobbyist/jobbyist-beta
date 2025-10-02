@@ -13,10 +13,16 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
+    // Get environment variables - these are automatically provided by Supabase Edge Functions
+    // and configured via GitHub Secrets for local/CI deployments
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      throw new Error('Missing required environment variables: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set');
+    }
+
+    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey)
 
     console.log("Starting job cleanup process...")
 

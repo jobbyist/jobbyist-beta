@@ -81,17 +81,20 @@ Contains Supabase PostgreSQL connection setup using the `postgres` library:
 ```javascript
 import postgres from 'postgres'
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:quxbe5-xuqjah-giDbiw@db.aznouacxayahvisuczie.supabase.co:5432/postgres'
+// Use environment variable for database connection
+const connectionString = process.env.DATABASE_URL
 const sql = postgres(connectionString)
 
 export default sql
 ```
 
+⚠️ **Security Note**: In production, this file now requires the `DATABASE_URL` environment variable to be set. Never hardcode database credentials in source code.
+
 ### 5. GitHub Secrets Documentation
 
 **New File:** `GITHUB_SECRETS.md`
 
-Comprehensive documentation for all required GitHub repository secrets:
+Comprehensive template documentation for all required GitHub repository secrets:
 - SUPABASE_ACCESS_TOKEN
 - SUPABASE_SERVICE_ROLE_KEY
 - SUPABASE_DB_PASSWORD
