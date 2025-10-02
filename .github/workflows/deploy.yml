@@ -43,16 +43,25 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          # Required Supabase configuration
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: >-
             ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+          # Required PayPal configuration
           VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
           VITE_PAYPAL_MONTHLY_PLAN_ID: >-
             ${{ secrets.VITE_PAYPAL_MONTHLY_PLAN_ID }}
           VITE_PAYPAL_YEARLY_PLAN_ID: >-
             ${{ secrets.VITE_PAYPAL_YEARLY_PLAN_ID }}
+          # Application environment
           VITE_APP_ENV: production
+          # Optional: AI Chatbot (OpenAI integration for Pro users)
+          VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
+          # Optional: Error tracking and monitoring
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+          # Optional: Analytics
+          VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_ID }}
       - name: Setup SPA routing
         run: |
           # Create 404.html for client-side routing fallback

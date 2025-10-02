@@ -23,11 +23,18 @@ This document describes the GitHub Actions workflows configured for the Jobbyist
 7. Deploy to GitHub Pages
 
 **Environment Variables Required**:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
-- `VITE_SUPABASE_PROJECT_ID`
-- `VITE_PAYPAL_CLIENT_ID`
-- `VITE_APP_ENV` (set to 'production')
+- `VITE_SUPABASE_URL` - Supabase project URL
+- `VITE_SUPABASE_PUBLISHABLE_KEY` - Supabase anon/public key
+- `VITE_SUPABASE_PROJECT_ID` - Supabase project identifier
+- `VITE_PAYPAL_CLIENT_ID` - PayPal client ID for payment processing
+- `VITE_PAYPAL_MONTHLY_PLAN_ID` - PayPal subscription plan ID for monthly billing
+- `VITE_PAYPAL_YEARLY_PLAN_ID` - PayPal subscription plan ID for yearly billing
+- `VITE_APP_ENV` - Set to 'production' for production builds
+
+**Environment Variables Optional**:
+- `VITE_OPENAI_API_KEY` - OpenAI API key for AI chatbot feature (Pro users only)
+- `VITE_SENTRY_DSN` - Sentry DSN for error tracking and monitoring
+- `VITE_GOOGLE_ANALYTICS_ID` - Google Analytics tracking ID
 
 **Key Features**:
 - Deploys as a Single Page Application (SPA), not a static website
@@ -127,8 +134,18 @@ To configure these workflows, add the following secrets in your GitHub repositor
 | `VITE_SUPABASE_PROJECT_ID` | Supabase project ID | Supabase Dashboard → Settings → General |
 | `SUPABASE_ACCESS_TOKEN` | Supabase CLI access token | Generate at supabase.com/dashboard/account/tokens |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | Supabase Dashboard → Settings → API |
-| `VITE_PAYPAL_CLIENT_ID` | PayPal client ID (optional) | PayPal Developer Dashboard |
-| `SNYK_TOKEN` | Snyk security token (optional) | snyk.io account settings |
+| `VITE_PAYPAL_CLIENT_ID` | PayPal client ID for payments | PayPal Developer Dashboard |
+| `VITE_PAYPAL_MONTHLY_PLAN_ID` | PayPal monthly subscription plan ID | PayPal Developer Dashboard → Billing Plans |
+| `VITE_PAYPAL_YEARLY_PLAN_ID` | PayPal yearly subscription plan ID | PayPal Developer Dashboard → Billing Plans |
+
+### Optional Secrets
+
+| Secret Name | Description | Where to Find |
+|------------|-------------|---------------|
+| `VITE_OPENAI_API_KEY` | OpenAI API key for AI chatbot (Pro feature) | platform.openai.com/api-keys |
+| `VITE_SENTRY_DSN` | Sentry DSN for error tracking | sentry.io project settings |
+| `VITE_GOOGLE_ANALYTICS_ID` | Google Analytics tracking ID | analytics.google.com |
+| `SNYK_TOKEN` | Snyk security scanning token | snyk.io account settings |
 
 ## Supabase Edge Functions
 
