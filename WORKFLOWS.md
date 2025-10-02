@@ -117,6 +117,34 @@ This document describes the GitHub Actions workflows configured for the Jobbyist
 - `VITE_SUPABASE_URL`: Supabase project URL
 - `SUPABASE_SERVICE_ROLE_KEY`: Service role key for function invocation
 
+### 5. Cleanup Old Job Listings (`cleanup-jobs.yml`)
+
+**Trigger**: 
+- Automatic daily at 3 AM UTC
+- Manual via workflow_dispatch
+
+**Purpose**: Removes job listings older than 30 days and deactivates expired listings
+
+**Usage** (Manual trigger):
+1. Go to Actions tab in GitHub
+2. Select "Cleanup Old Job Listings" workflow
+3. Click "Run workflow"
+4. Enter confirmation text: `cleanup-jobs`
+5. Click "Run workflow" button
+
+**Steps**:
+1. Validates confirmation input (manual trigger only)
+2. Links to Supabase project
+3. Deploys job-cleanup function (if needed)
+4. Invokes job-cleanup function
+5. Displays cleanup summary
+
+**Required Secrets**:
+- `SUPABASE_ACCESS_TOKEN`: Supabase CLI access token
+- `VITE_SUPABASE_PROJECT_ID`: Supabase project ID
+- `VITE_SUPABASE_URL`: Supabase project URL
+- `SUPABASE_SERVICE_ROLE_KEY`: Service role key for function invocation
+
 ## Setting Up Secrets
 
 To configure these workflows, add the following secrets in your GitHub repository:
