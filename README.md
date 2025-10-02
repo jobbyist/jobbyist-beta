@@ -10,10 +10,13 @@ Jobbyist is a comprehensive job discovery and career management platform designe
 ### 📚 Documentation
 
 For comprehensive setup and deployment information, see:
+- **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - 🔐 **START HERE**: Step-by-step guide for configuring GitHub Secrets
+- **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete reference for all required and optional secrets
+- **[GITHUB_SECRETS.md](GITHUB_SECRETS.md)** - Template and security guidelines for secrets configuration
 - **[COMPLETE_CONFIGURATION_SUMMARY.md](COMPLETE_CONFIGURATION_SUMMARY.md)** - Complete overview of build and deployment
-- **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Guide to configuring GitHub secrets
 - **[WORKFLOWS.md](WORKFLOWS.md)** - Detailed workflow documentation
 - **[DEPLOYMENT_CONFIGURATION.md](DEPLOYMENT_CONFIGURATION.md)** - Deployment details and troubleshooting
+- **[PRODUCTION_GUIDE.md](PRODUCTION_GUIDE.md)** - Production deployment and optimization guide
 
 ### Key Features
 
@@ -73,14 +76,54 @@ npm run dev
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+For local development, create a `.env` file based on `.env.example`:
 
+```sh
+cp .env.example .env
+# Then edit .env with your actual credentials
+```
+
+Required variables for development:
 ```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 VITE_SUPABASE_PROJECT_ID=your_project_id
 VITE_PAYPAL_CLIENT_ID=your_paypal_client_id
+VITE_PAYPAL_MONTHLY_PLAN_ID=your_monthly_plan_id
+VITE_PAYPAL_YEARLY_PLAN_ID=your_yearly_plan_id
 ```
+
+⚠️ **Important**: Never commit the `.env` file. It's already in `.gitignore`.
+
+For production deployment, all secrets must be configured in **GitHub Secrets**. See [SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md) for detailed instructions.
+
+## Backend Configuration
+
+### 🚀 Quick Start
+
+**New to backend setup?** Start here: **[QUICK_START_BACKEND.md](QUICK_START_BACKEND.md)** - 5-step guide (~15 minutes)
+
+### 🔐 Setting Up Secrets
+
+The platform requires proper configuration of GitHub Secrets for:
+- ✅ Supabase Edge Functions (job-scraper, job-cleanup, seed-jobs)
+- ✅ Database Migrations (automatic deployment)
+- ✅ PayPal Payment Integration (Pro subscriptions)
+- ✅ Optional: AI Chatbot, Error Tracking, Analytics
+
+**Detailed Setup Guides**:
+1. **[QUICK_START_BACKEND.md](QUICK_START_BACKEND.md)** - ⚡ Quick 5-step setup (START HERE)
+2. **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - Detailed step-by-step instructions
+3. **[BACKEND_VERIFICATION_CHECKLIST.md](BACKEND_VERIFICATION_CHECKLIST.md)** - Verify everything works
+4. **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete secrets reference
+
+### ✅ Verification
+
+After configuring secrets, use the [BACKEND_VERIFICATION_CHECKLIST.md](BACKEND_VERIFICATION_CHECKLIST.md) to verify:
+- All workflows run successfully
+- Edge functions deploy correctly
+- PayPal integration works
+- Scheduled jobs run automatically
 
 ## GitHub Actions Workflows
 
