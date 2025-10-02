@@ -45,6 +45,8 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
           VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
+          VITE_PAYPAL_MONTHLY_PLAN_ID: ${{ secrets.VITE_PAYPAL_MONTHLY_PLAN_ID }}
+          VITE_PAYPAL_YEARLY_PLAN_ID: ${{ secrets.VITE_PAYPAL_YEARLY_PLAN_ID }}
           VITE_APP_ENV: production
       - name: Setup SPA routing
         run: |

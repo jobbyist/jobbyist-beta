@@ -71,9 +71,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     if (savedCount) {
       return parseInt(savedCount, 10);
     }
-    // Start from 8769 or use initialPlayCount if higher
+    // Start from 8768 or use initialPlayCount if higher
     const initialCount = episodes[currentEpisodeIndex]?.initialPlayCount || 0;
-    return Math.max(8769, initialCount);
+    return Math.max(8768, initialCount);
   });
   const [showTipDialog, setShowTipDialog] = useState(false);
   const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
@@ -115,7 +115,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       setPlayCount(parseInt(savedCount, 10));
     } else {
       const initialCount = episodes[currentEpisodeIndex]?.initialPlayCount || 0;
-      setPlayCount(Math.max(8769, initialCount));
+      setPlayCount(Math.max(8768, initialCount));
     }
     
     // Load like/dislike state

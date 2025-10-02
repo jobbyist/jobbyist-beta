@@ -24,14 +24,14 @@ export const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
-    // Check if 30 days have passed since last prompt
+    // Check if 7 days have passed since last prompt
     const lastPromptDate = localStorage.getItem('pwaLastPromptDate');
-    const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
+    const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
     
     const shouldShowPrompt = () => {
       if (!lastPromptDate) return true;
       const daysSinceLastPrompt = Date.now() - parseInt(lastPromptDate);
-      return daysSinceLastPrompt >= thirtyDaysInMs;
+      return daysSinceLastPrompt >= sevenDaysInMs;
     };
 
     // Check if already installed
@@ -48,7 +48,7 @@ export const PWAInstallPrompt = () => {
       const promptEvent = e as BeforeInstallPromptEvent;
       setDeferredPrompt(promptEvent);
       
-      // Only show prompt if 30 days have passed
+      // Only show prompt if 7 days have passed
       if (shouldShowPrompt()) {
         // Wait a bit before showing the prompt (better UX)
         setTimeout(() => {
@@ -90,7 +90,7 @@ export const PWAInstallPrompt = () => {
   };
 
   const handleDismiss = () => {
-    // Update last prompt date so we don't show again for 30 days
+    // Update last prompt date so we don't show again for 7 days
     localStorage.setItem('pwaLastPromptDate', Date.now().toString());
     setShowPrompt(false);
   };

@@ -112,7 +112,7 @@ const JobbyistPro = () => {
   const pricingPlans = [
     {
       name: "Pro Monthly",
-      price: "R99",
+      price: "$4.99",
       period: "/month",
       description: "Perfect for active job seekers",
       features: [
@@ -125,15 +125,15 @@ const JobbyistPro = () => {
     },
     {
       name: "Pro Annual",
-      price: "R990",
+      price: "$49.99",
       period: "/year",
-      originalPrice: "R1,188",
-      description: "Best value - save 2 months!",
+      originalPrice: "$59.88",
+      description: "Best value - save 17%!",
       features: [
         "All Pro features included",
         "Unlimited job applications",
         "Priority support",
-        "2 months free",
+        "Save $9.89 per year",
         "Annual career review"
       ],
       recommended: true

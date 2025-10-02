@@ -14,6 +14,7 @@ import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileTex
 import { useIsMobile } from '@/hooks/use-mobile';
 import Footer from '@/components/Footer';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
+import { LatestStories } from '@/components/LatestStories';
 
 interface AudioEpisode {
   id: string;
@@ -263,7 +264,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-16 w-16 md:h-20 md:w-20" />
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" style={{ width: '200px', height: 'auto' }} />
               {!isMobile && (
                 <>
                   <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
@@ -845,6 +846,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Latest Stories Section */}
+      <LatestStories />
 
       {/* Footer Banner Ad */}
       <div className="py-6 bg-background/10 border-t">
