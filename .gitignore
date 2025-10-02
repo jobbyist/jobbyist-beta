@@ -27,3 +27,4 @@ dist-ssr
 public/audio/*.mp3
 public/audio/*.wav
 public/audio/*.ogg
+coverage/
