@@ -23,6 +23,7 @@ import CompanyProfile from "./pages/CompanyProfile";
 import CompanyDirectory from "./pages/CompanyDirectory";
 import AdminAudioUpload from "./pages/AdminAudioUpload";
 import Episodes from "./pages/Episodes";
+import Stream from "./pages/Stream";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -70,6 +71,7 @@ const App = () => {
                   <Route path="/company/:companyId" element={<CompanyProfile />} />
                   <Route path="/admin/audio-upload" element={<AdminAudioUpload />} />
                   <Route path="/episodes" element={<Episodes />} />
+                  <Route path="/stream" element={<Stream />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/terms-of-service" element={<TermsOfService />} />
                   <Route path="/cookie-policy" element={<CookiePolicy />} />

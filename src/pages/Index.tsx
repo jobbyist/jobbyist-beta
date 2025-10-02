@@ -263,7 +263,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" className="h-16 w-16 md:h-20 md:w-20" />
+              <img src="/JOBBYIST.svg" alt="Jobbyist Logo" style={{ width: '200px', height: 'auto' }} />
               {!isMobile && (
                 <>
                   <h1 className="text-2xl font-bold text-foreground">Jobbyist</h1>
