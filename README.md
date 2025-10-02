@@ -11,6 +11,7 @@ Jobbyist is a comprehensive job discovery and career management platform designe
 
 For comprehensive setup and deployment information, see:
 - **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - 🔐 **START HERE**: Step-by-step guide for configuring GitHub Secrets
+- **[VERCEL_SETUP.md](VERCEL_SETUP.md)** - 🚀 Vercel deployment guide with Supabase configuration
 - **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete reference for all required and optional secrets
 - **[GITHUB_SECRETS.md](GITHUB_SECRETS.md)** - Template and security guidelines for secrets configuration
 - **[COMPLETE_CONFIGURATION_SUMMARY.md](COMPLETE_CONFIGURATION_SUMMARY.md)** - Complete overview of build and deployment
@@ -48,7 +49,7 @@ This project is built with:
 - **Backend**: Supabase (PostgreSQL, Edge Functions)
 - **Authentication**: Supabase Auth
 - **Storage**: Supabase Storage
-- **Deployment**: GitHub Pages
+- **Deployment**: GitHub Pages, Vercel
 - **CI/CD**: GitHub Actions
 
 ## Getting Started
@@ -181,6 +182,26 @@ npm run build
 - ✅ Custom domain: **jobbyist.africa**
 - ✅ Client-side routing support
 - ✅ Automatic deployments on push to main
+
+### Vercel (Alternative Deployment)
+
+The application can also be deployed to Vercel with full Supabase integration:
+
+```sh
+# Using Vercel CLI
+vercel --prod
+
+# Or import from GitHub at https://vercel.com
+```
+
+**Vercel Configuration:**
+- ✅ Automatic builds from GitHub
+- ✅ Environment variables configured in `vercel.json`
+- ✅ Supabase connection pre-configured
+- ✅ Edge Network for optimal performance
+- ✅ Preview deployments for all PRs
+
+For detailed Vercel setup instructions, see **[VERCEL_SETUP.md](VERCEL_SETUP.md)**.
 
 ### Custom Domain
 
