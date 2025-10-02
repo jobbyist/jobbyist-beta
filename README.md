@@ -76,14 +76,49 @@ npm run dev
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+For local development, create a `.env` file based on `.env.example`:
 
+```sh
+cp .env.example .env
+# Then edit .env with your actual credentials
+```
+
+Required variables for development:
 ```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 VITE_SUPABASE_PROJECT_ID=your_project_id
 VITE_PAYPAL_CLIENT_ID=your_paypal_client_id
+VITE_PAYPAL_MONTHLY_PLAN_ID=your_monthly_plan_id
+VITE_PAYPAL_YEARLY_PLAN_ID=your_yearly_plan_id
 ```
+
+⚠️ **Important**: Never commit the `.env` file. It's already in `.gitignore`.
+
+For production deployment, all secrets must be configured in **GitHub Secrets**. See [SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md) for detailed instructions.
+
+## Backend Configuration
+
+### 🔐 Setting Up Secrets
+
+The platform requires proper configuration of GitHub Secrets for:
+- ✅ Supabase Edge Functions (job-scraper, job-cleanup, seed-jobs)
+- ✅ Database Migrations (automatic deployment)
+- ✅ PayPal Payment Integration (Pro subscriptions)
+- ✅ Optional: AI Chatbot, Error Tracking, Analytics
+
+**Follow these guides in order**:
+1. **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - Step-by-step setup instructions
+2. **[BACKEND_VERIFICATION_CHECKLIST.md](BACKEND_VERIFICATION_CHECKLIST.md)** - Verify everything works
+3. **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete secrets reference
+
+### ✅ Verification
+
+After configuring secrets, use the [BACKEND_VERIFICATION_CHECKLIST.md](BACKEND_VERIFICATION_CHECKLIST.md) to verify:
+- All workflows run successfully
+- Edge functions deploy correctly
+- PayPal integration works
+- Scheduled jobs run automatically
 
 ## GitHub Actions Workflows
 
