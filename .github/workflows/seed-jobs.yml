@@ -16,11 +16,11 @@ jobs:
   seed-jobs:
     name: Seed 100 Job Listings
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Validate confirmation (manual trigger only)
         if: github.event_name == 'workflow_dispatch'
         run: |
@@ -29,34 +29,35 @@ jobs:
             exit 1
           fi
           echo "✅ Confirmation validated"
-      
+
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v1
         with:
           version: latest
-      
+
       - name: Link Supabase project
         run: |
           supabase link --project-ref ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      
+
       - name: Deploy seed-jobs function (if needed)
         run: |
           supabase functions deploy seed-jobs
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      
+
       - name: Invoke seed-jobs function
         run: |
           echo "🌱 Seeding job listings..."
           response=$(curl -s -X POST \
             "${{ secrets.VITE_SUPABASE_URL }}/functions/v1/seed-jobs" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Authorization: Bearer \
+              ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
             -H "Content-Type: application/json")
-          
+
           echo "Response: $response"
-          
+
           # Check if response contains success
           if echo "$response" | grep -q "success.*true"; then
             echo "✅ Job listings seeded successfully!"
@@ -64,7 +65,7 @@ jobs:
             echo "❌ Failed to seed job listings"
             exit 1
           fi
-      
+
       - name: Summary
         run: |
           echo "📊 Job Seeding Summary:"
