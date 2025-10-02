@@ -7,6 +7,14 @@
 
 Jobbyist is a comprehensive job discovery and career management platform designed specifically for the African job market. The platform connects job seekers with verified companies across South Africa, Nigeria, and other African countries.
 
+### 📚 Documentation
+
+For comprehensive setup and deployment information, see:
+- **[COMPLETE_CONFIGURATION_SUMMARY.md](COMPLETE_CONFIGURATION_SUMMARY.md)** - Complete overview of build and deployment
+- **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Guide to configuring GitHub secrets
+- **[WORKFLOWS.md](WORKFLOWS.md)** - Detailed workflow documentation
+- **[DEPLOYMENT_CONFIGURATION.md](DEPLOYMENT_CONFIGURATION.md)** - Deployment details and troubleshooting
+
 ### Key Features
 
 - 🔍 **Smart Job Search** - Discover curated job opportunities from verified companies
