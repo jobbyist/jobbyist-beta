@@ -175,6 +175,57 @@ Vercel automatically deploys:
 - [Vite Deployment Guide](https://vitejs.dev/guide/static-deploy.html)
 - [Supabase Documentation](https://supabase.com/docs)
 
+## Supabase Edge Functions and Migrations
+
+The application uses Supabase Edge Functions and database migrations that work seamlessly with Vercel deployments:
+
+### Edge Functions
+
+Supabase Edge Functions are serverless Deno functions that run on Supabase infrastructure (not on Vercel). The frontend deployed on Vercel calls these functions via HTTP API:
+
+**Available Functions:**
+- **job-scraper**: Scrapes and imports job listings (`/functions/v1/job-scraper`)
+- **job-cleanup**: Removes old job listings (`/functions/v1/job-cleanup`)
+- **seed-jobs**: Seeds sample job data (`/functions/v1/seed-jobs`)
+
+**Deployment:**
+- Edge Functions are deployed automatically via GitHub Actions when changes are pushed to `main`
+- See `.github/workflows/supabase-deploy.yml`
+- Can also be deployed manually using Supabase CLI
+
+**How it works with Vercel:**
+1. Vercel hosts the frontend application
+2. Frontend makes HTTP requests to Supabase Edge Functions
+3. Edge Functions process requests and interact with the database
+4. Results are returned to the frontend
+
+### Database Migrations
+
+Database migrations are SQL scripts that set up and modify the database schema. They are located in `supabase/migrations/` and include:
+- Table definitions
+- Row Level Security (RLS) policies
+- Storage bucket configuration
+- Initial data seeding
+
+**Deployment:**
+- Migrations are applied automatically via GitHub Actions when changes are pushed to `main`
+- See `.github/workflows/supabase-deploy.yml`
+- Can also be applied manually using Supabase CLI: `supabase db push`
+
+### Integration Architecture
+
+```
+Vercel (Frontend) → HTTP API → Supabase (Edge Functions + Database)
+```
+
+The frontend uses the Supabase client library to:
+- Authenticate users
+- Query the database (with RLS protection)
+- Call Edge Functions
+- Upload/download files from storage
+
+For detailed information about the integration, see **[VERCEL_SUPABASE_INTEGRATION.md](VERCEL_SUPABASE_INTEGRATION.md)**.
+
 ## Security Notes
 
 ⚠️ **Important**: The Supabase publishable key is safe to expose in client-side code as it only provides access to public data and authenticated operations. Never expose the Supabase service role key in client-side code.

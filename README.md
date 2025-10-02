@@ -12,6 +12,7 @@ Jobbyist is a comprehensive job discovery and career management platform designe
 For comprehensive setup and deployment information, see:
 - **[SECRETS_SETUP_GUIDE.md](SECRETS_SETUP_GUIDE.md)** - 🔐 **START HERE**: Step-by-step guide for configuring GitHub Secrets
 - **[VERCEL_SETUP.md](VERCEL_SETUP.md)** - 🚀 Vercel deployment guide with Supabase configuration
+- **[VERCEL_SUPABASE_INTEGRATION.md](VERCEL_SUPABASE_INTEGRATION.md)** - 🔗 Complete guide for Supabase Edge Functions and migrations with Vercel
 - **[REQUIRED_SECRETS.md](REQUIRED_SECRETS.md)** - Complete reference for all required and optional secrets
 - **[GITHUB_SECRETS.md](GITHUB_SECRETS.md)** - Template and security guidelines for secrets configuration
 - **[COMPLETE_CONFIGURATION_SUMMARY.md](COMPLETE_CONFIGURATION_SUMMARY.md)** - Complete overview of build and deployment
