@@ -273,6 +273,19 @@ const Index = () => {
               )}
             </div>
             
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center gap-2">
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/jobs">Jobs</Link>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/upskilling">Upskilling Programs</Link>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/builder">Resume Builder</Link>
+              </Button>
+            </div>
+            
             <div className="flex items-center gap-2 md:gap-4">
             {user && (
               <div className="flex items-center gap-1 md:gap-2">
