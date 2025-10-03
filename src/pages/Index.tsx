@@ -10,7 +10,7 @@ import { AudioPlayer } from '@/components/AudioPlayer';
 import AdPlaceholder from '@/components/AdPlaceholder';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
-import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye, Building2, Target, Shield } from 'lucide-react';
+import { Search, Briefcase, Users, TrendingUp, LogOut, User, Zap, Crown, FileText, Clock, CheckCircle, ArrowRight, Calendar, Eye, Building2, Target, Shield, GraduationCap, Trophy } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Footer from '@/components/Footer';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
@@ -507,6 +507,71 @@ const Index = () => {
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Upskilling Programs Section */}
+      <section className="py-20 bg-gradient-to-r from-secondary/10 via-background to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full mb-6">
+                <GraduationCap className="h-5 w-5" />
+                <span className="font-semibold">New Feature</span>
+              </div>
+              
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Upskilling Programs
+              </h2>
+              
+              <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                Master in-demand skills with our comprehensive learning paths. From frontend development to data science, 
+                get the training you need to advance your career and stand out in the job market.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <div className="bg-background border rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4">
+                  <GraduationCap className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">8 Learning Paths</h3>
+                <p className="text-muted-foreground">
+                  Structured courses in Frontend, Backend, Data Science, DevOps, and more
+                </p>
+              </div>
+
+              <div className="bg-background border rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4">
+                  <Trophy className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Earn Badges</h3>
+                <p className="text-muted-foreground">
+                  Get recognized for your achievements and showcase your skills to employers
+                </p>
+              </div>
+
+              <div className="bg-background border rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Join Circles</h3>
+                <p className="text-muted-foreground">
+                  Connect with peers in study groups, mentorship circles, and project teams
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <Link to="/upskilling">
+                <Button size="lg" className="text-lg px-8">
+                  <GraduationCap className="h-5 w-5 mr-2" />
+                  Explore Learning Paths
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
