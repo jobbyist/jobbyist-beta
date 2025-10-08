@@ -4,61 +4,14 @@ import { Input } from '@/components/ui/input';
 import { Search, Building2 } from 'lucide-react';
 import { useState } from 'react';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
-
-interface Company {
-  id: string;
-  name: string;
-  logo: string;
-  location: string;
-  gradient: string;
-}
+import { loadAllCompanies, filterCompanies } from '@/utils/loadCompanies';
 
 const CompanyDirectory = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isRecruitmentModalOpen, setIsRecruitmentModalOpen] = useState(false);
 
-  const companies: Company[] = [
-    {
-      id: 'deloitte',
-      name: 'Deloitte',
-      logo: '/images/company-logos/deloitte.svg',
-      location: 'Global',
-      gradient: 'from-green-500/10 to-green-600/10'
-    },
-    {
-      id: 'vodacom',
-      name: 'Vodacom Group',
-      logo: '/images/company-logos/vodacom.svg',
-      location: 'South Africa',
-      gradient: 'from-red-500/10 to-red-600/10'
-    },
-    {
-      id: 'access-bank',
-      name: 'Access Bank',
-      logo: '/images/company-logos/access-bank.svg',
-      location: 'Nigeria',
-      gradient: 'from-orange-500/10 to-orange-600/10'
-    },
-    {
-      id: 'capitec',
-      name: 'Capitec Bank',
-      logo: '/images/company-logos/capitec.svg',
-      location: 'South Africa',
-      gradient: 'from-blue-500/10 to-blue-600/10'
-    },
-    {
-      id: 'amazon',
-      name: 'Amazon',
-      logo: '/images/company-logos/amazon.svg',
-      location: 'Global',
-      gradient: 'from-yellow-500/10 to-orange-500/10'
-    }
-  ];
-
-  const filteredCompanies = companies.filter(company =>
-    company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    company.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const allCompanies = loadAllCompanies();
+  const filteredCompanies = filterCompanies(allCompanies, searchQuery);
 
   return (
     <div className="min-h-screen bg-background">

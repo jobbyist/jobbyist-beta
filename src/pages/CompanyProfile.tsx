@@ -11,94 +11,14 @@ import {
   ExternalLink,
   Briefcase
 } from 'lucide-react';
-
-interface Company {
-  id: string;
-  name: string;
-  logo: string;
-  location: string;
-  description: string;
-  industry: string;
-  size: string;
-  website: string;
-  founded: string;
-  specialties: string[];
-  jobCount: number;
-}
+import { getCompanyById, getJobsForCompany } from '@/utils/loadCompanies';
 
 const CompanyProfile = () => {
   const { companyId } = useParams();
 
-  // Mock company data - in production this would come from a database
-  const companies: Record<string, Company> = {
-    'deloitte': {
-      id: 'deloitte',
-      name: 'Deloitte',
-      logo: '/images/company-logos/deloitte.svg',
-      location: 'Global',
-      description: 'Deloitte is a leading global provider of audit and assurance, consulting, financial advisory, risk advisory, tax, and related services. Our network of member firms spans more than 150 countries and territories.',
-      industry: 'Professional Services',
-      size: '10,000+ employees',
-      website: 'https://deloitte.com',
-      founded: '1845',
-      specialties: ['Audit & Assurance', 'Consulting', 'Risk Advisory', 'Tax Services', 'Financial Advisory'],
-      jobCount: 12
-    },
-    'vodacom': {
-      id: 'vodacom',
-      name: 'Vodacom Group',
-      logo: '/images/company-logos/vodacom.svg',
-      location: 'South Africa',
-      description: 'Vodacom Group is a leading African mobile communications company, providing a wide range of communication services across the continent. We connect millions of people and enable them to participate in the digital economy.',
-      industry: 'Telecommunications',
-      size: '5,000+ employees',
-      website: 'https://vodacom.co.za',
-      founded: '1994',
-      specialties: ['Mobile Networks', 'Digital Services', 'IoT Solutions', 'Financial Services', '5G Technology'],
-      jobCount: 8
-    },
-    'access-bank': {
-      id: 'access-bank',
-      name: 'Access Bank',
-      logo: '/images/company-logos/access-bank.svg',
-      location: 'Nigeria',
-      description: 'Access Bank PLC is a commercial bank in Nigeria and one of the five largest banks in the country by market capitalization. We provide comprehensive banking and financial services to individuals and businesses.',
-      industry: 'Banking & Finance',
-      size: '1,000+ employees',
-      website: 'https://accessbankplc.com',
-      founded: '1989',
-      specialties: ['Retail Banking', 'Corporate Banking', 'Digital Banking', 'Investment Banking', 'Trade Finance'],
-      jobCount: 15
-    },
-    'capitec': {
-      id: 'capitec',
-      name: 'Capitec Bank',
-      logo: '/images/company-logos/capitec.svg',
-      location: 'South Africa',
-      description: 'Capitec Bank is a South African retail bank that offers simplified, accessible, and affordable banking solutions. We are known for our client-centric approach and innovative digital banking services.',
-      industry: 'Banking & Finance',
-      size: '1,500+ employees',
-      website: 'https://capitecbank.co.za',
-      founded: '2001',
-      specialties: ['Retail Banking', 'Digital Banking', 'Personal Loans', 'Investment Products', 'Insurance'],
-      jobCount: 6
-    },
-    'amazon': {
-      id: 'amazon',
-      name: 'Amazon',
-      logo: '/images/company-logos/amazon.svg',
-      location: 'Global',
-      description: 'Amazon is a multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence. We are committed to being Earth\'s Most Customer-Centric Company.',
-      industry: 'Technology',
-      size: '10,000+ employees',
-      website: 'https://amazon.com',
-      founded: '1994',
-      specialties: ['E-commerce', 'Cloud Computing', 'Artificial Intelligence', 'Digital Streaming', 'Logistics'],
-      jobCount: 25
-    }
-  };
-
-  const company = companies[companyId || ''];
+  // Load company data from database
+  const company = getCompanyById(companyId || '');
+  const jobs = company ? getJobsForCompany(company.name) : [];
 
   if (!company) {
     return (
@@ -191,39 +111,56 @@ const CompanyProfile = () => {
             </Card>
 
             {/* Specialties */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Our Specialties</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {company.specialties.map((specialty) => (
-                    <Badge key={specialty} variant="secondary">
-                      {specialty}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {company.specialties.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Our Specialties</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {company.specialties.map((specialty) => (
+                      <Badge key={specialty} variant="secondary">
+                        {specialty}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Recent Jobs */}
             <Card>
               <CardHeader>
-                <CardTitle>Recent Job Openings</CardTitle>
+                <CardTitle>Job Openings</CardTitle>
                 <CardDescription>
-                  Latest opportunities at {company.name}
+                  {jobs.length > 0 ? `${jobs.length} current opportunities at ${company.name}` : `No current opportunities at ${company.name}`}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Connect to database to view actual job listings</p>
-                  <Button variant="outline" className="mt-4" asChild>
-                    <Link to="/jobs" state={{ company: company.name }}>
-                      View All Jobs
-                    </Link>
-                  </Button>
-                </div>
+                {jobs.length > 0 ? (
+                  <div className="space-y-4">
+                    {jobs.slice(0, 5).map((job) => (
+                      <JobCard key={job.id} job={job} />
+                    ))}
+                    {jobs.length > 5 && (
+                      <Button variant="outline" className="w-full mt-4" asChild>
+                        <Link to="/jobs" state={{ company: company.name }}>
+                          View All {jobs.length} Jobs
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p>No current job openings</p>
+                    <Button variant="outline" className="mt-4" asChild>
+                      <Link to="/jobs">
+                        Browse All Jobs
+                      </Link>
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -269,6 +206,11 @@ const CompanyProfile = () => {
                 <Button variant="outline" className="w-full" asChild>
                   <a href={company.website} target="_blank" rel="noopener noreferrer">
                     Visit Website
+                  </a>
+                </Button>
+                <Button variant="secondary" className="w-full" asChild>
+                  <a href="mailto:hello@jobbyist.africa?subject=Claim%20Company%20Page">
+                    Claim this page
                   </a>
                 </Button>
               </CardContent>
