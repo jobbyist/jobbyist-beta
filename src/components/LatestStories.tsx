@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Story {
   id: string;
@@ -97,7 +99,8 @@ const stories: Story[] = [
 
 export const LatestStories = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const storiesPerView = 3;
+  const isMobile = useIsMobile();
+  const storiesPerView = isMobile ? 1 : 3;
 
   const nextStories = () => {
     setCurrentIndex((prev) => 
@@ -111,40 +114,59 @@ export const LatestStories = () => {
     );
   };
 
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => 
+        prev + storiesPerView >= stories.length ? 0 : prev + storiesPerView
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [storiesPerView]);
+
   const visibleStories = stories.slice(currentIndex, currentIndex + storiesPerView);
 
   return (
     <section className="py-12 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Latest Stories
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Career insights, tips, and success stories for job seekers across Africa
-          </p>
-        </div>
+        <TooltipProvider>
+          <div className="text-center mb-8">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 cursor-help inline-block">
+                  Community Forum
+                </h2>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>New content coming soon. Watch this space!</p>
+              </TooltipContent>
+            </Tooltip>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Career insights, tips, and success stories for job seekers across Africa
+            </p>
+          </div>
 
         <div className="relative">
-          {/* Navigation Buttons */}
+          {/* Navigation Buttons - More Visible */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none z-10">
             <Button
               variant="outline"
               size="icon"
               onClick={prevStories}
               disabled={currentIndex === 0}
-              className="pointer-events-auto -ml-4 shadow-lg bg-background/95 hover:bg-background"
+              className="pointer-events-auto -ml-4 shadow-xl bg-background hover:bg-background border-2 border-primary/30 hover:border-primary"
             >
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft className="h-7 w-7 text-primary" />
             </Button>
             <Button
               variant="outline"
               size="icon"
               onClick={nextStories}
               disabled={currentIndex + storiesPerView >= stories.length}
-              className="pointer-events-auto -mr-4 shadow-lg bg-background/95 hover:bg-background"
+              className="pointer-events-auto -mr-4 shadow-xl bg-background hover:bg-background border-2 border-primary/30 hover:border-primary"
             >
-              <ChevronRight className="h-6 w-6" />
+              <ChevronRight className="h-7 w-7 text-primary" />
             </Button>
           </div>
 
@@ -210,6 +232,7 @@ export const LatestStories = () => {
             ))}
           </div>
         </div>
+      </TooltipProvider>
       </div>
 
       <style>{`
