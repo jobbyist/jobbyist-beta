@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { AuthModal } from '@/components/AuthModal';
+import { getCompanyByName } from '@/utils/loadCompanies';
 
 interface Job {
   id: string;
@@ -142,7 +144,19 @@ export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) =>
             <h3 className="text-lg font-semibold text-foreground mb-1">{job.title}</h3>
             <div className="flex items-center gap-2 text-muted-foreground mb-2">
               <Building2 className="h-4 w-4" />
-              <span>{job.company}</span>
+              {(() => {
+                const company = getCompanyByName(job.company);
+                return company ? (
+                  <Link 
+                    to={`/company/${company.slug}`}
+                    className="hover:text-primary hover:underline transition-colors"
+                  >
+                    {job.company}
+                  </Link>
+                ) : (
+                  <span>{job.company}</span>
+                );
+              })()}
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
