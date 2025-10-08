@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Building2, Clock, DollarSign, Heart, ExternalLink } from 'lucide-react';
+import { MapPin, Building2, Clock, DollarSign, Heart, ExternalLink, Sparkles } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { AuthModal } from '@/components/AuthModal';
+import { ApplyWithAIModal } from '@/components/ApplyWithAIModal';
 import { Link } from 'react-router-dom';
 import { getCompanyIdFromName } from '@/utils/loadCompanies';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface Job {
   id: string;
@@ -37,8 +44,35 @@ interface JobCardProps {
 export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) => {
   const [saving, setSaving] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showApplyWithAI, setShowApplyWithAI] = useState(false);
+  const [isProUser, setIsProUser] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
+
+  useEffect(() => {
+    const checkProStatus = async () => {
+      if (!user) {
+        setIsProUser(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('is_pro_user')
+          .eq('user_id', user.id)
+          .single();
+
+        if (!error && data) {
+          setIsProUser(data.is_pro_user || false);
+        }
+      } catch (error) {
+        console.error('Error checking pro status:', error);
+      }
+    };
+
+    checkProStatus();
+  }, [user]);
 
   const formatSalary = (min?: number, max?: number, currency = 'ZAR') => {
     if (!min && !max) return null;
@@ -121,14 +155,32 @@ export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) =>
     }
   };
 
-  const handleApplyNow = () => {
+  const handleDirectApply = () => {
     if (!user) {
       setShowAuthModal(true);
       return;
     }
     
-    // If user is authenticated, redirect to application URL
+    // Open application URL in new tab
     window.open(job.application_url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleApplyWithAI = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    if (!isProUser) {
+      toast({
+        title: "Pro Feature",
+        description: "Apply with AI is available for Jobbyist Pro members only.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setShowApplyWithAI(true);
   };
 
   const handleAuthSuccess = () => {
@@ -208,17 +260,53 @@ export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) =>
           </div>
         )}
 
-        <Button onClick={handleApplyNow} className="w-full">
-          <span className="flex items-center gap-2">
-            Apply Now
-            <ExternalLink className="h-4 w-4" />
-          </span>
-        </Button>
+        {user && isProUser ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="w-full">
+                <span className="flex items-center gap-2">
+                  Apply Now
+                  <ExternalLink className="h-4 w-4" />
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuItem onClick={handleApplyWithAI} className="cursor-pointer">
+                <Sparkles className="h-4 w-4 mr-2 text-primary" />
+                <div className="flex flex-col">
+                  <span className="font-semibold">Apply with AI</span>
+                  <span className="text-xs text-muted-foreground">Let AI handle your application</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDirectApply} className="cursor-pointer">
+                <ExternalLink className="h-4 w-4 mr-2" />
+                <div className="flex flex-col">
+                  <span>Direct Apply</span>
+                  <span className="text-xs text-muted-foreground">Apply on company website</span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button onClick={handleDirectApply} className="w-full">
+            <span className="flex items-center gap-2">
+              Apply Now
+              <ExternalLink className="h-4 w-4" />
+            </span>
+          </Button>
+        )}
         
         <AuthModal 
           open={showAuthModal} 
           onOpenChange={setShowAuthModal}
           onAuthSuccess={handleAuthSuccess}
+        />
+
+        <ApplyWithAIModal
+          open={showApplyWithAI}
+          onOpenChange={setShowApplyWithAI}
+          jobTitle={job.title}
+          company={job.company}
         />
       </CardContent>
     </Card>
