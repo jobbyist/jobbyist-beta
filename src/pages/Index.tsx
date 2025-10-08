@@ -15,7 +15,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import Footer from '@/components/Footer';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
 import { LatestStories } from '@/components/LatestStories';
-import { StoriesHighlight } from '@/components/StoriesHighlight';
+import { Stories } from '@/components/Stories';
 import { loadAllJobs, filterJobs, getAllSkills } from '@/utils/loadJobs';
 import { generateJobSchema } from '@/utils/google-jobs-schema';
 
@@ -243,11 +243,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-      {/* Stories Highlight - Above Header */}
-      <StoriesHighlight />
+      {/* Stories Section - Above Header */}
+      <Stories />
       
       {/* Header */}
-      <header className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b bg-background/80 backdrop-blur-sm sticky top-16 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -316,7 +316,7 @@ const Index = () => {
           <div className="flex flex-wrap justify-center gap-8 mb-8">
             <div className="flex items-center gap-3 bg-primary/5 px-4 py-2 rounded-full">
               <Briefcase className="h-6 w-6 text-primary" />
-              <span className="font-semibold">{jobs.length}+ New Jobs Today</span>
+              <span className="font-semibold">New jobs added every day</span>
             </div>
             <div className="flex items-center gap-3 bg-primary/5 px-4 py-2 rounded-full">
               <Users className="h-6 w-6 text-primary" />
