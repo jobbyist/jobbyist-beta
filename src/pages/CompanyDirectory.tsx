@@ -2,63 +2,43 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Building2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
-
-interface Company {
-  id: string;
-  name: string;
-  logo: string;
-  location: string;
-  gradient: string;
-}
+import { loadAllCompanies, filterCompanies, type Company } from '@/utils/loadCompanies';
 
 const CompanyDirectory = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isRecruitmentModalOpen, setIsRecruitmentModalOpen] = useState(false);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
 
-  const companies: Company[] = [
-    {
-      id: 'deloitte',
-      name: 'Deloitte',
-      logo: '/images/company-logos/deloitte.svg',
-      location: 'Global',
-      gradient: 'from-green-500/10 to-green-600/10'
-    },
-    {
-      id: 'vodacom',
-      name: 'Vodacom Group',
-      logo: '/images/company-logos/vodacom.svg',
-      location: 'South Africa',
-      gradient: 'from-red-500/10 to-red-600/10'
-    },
-    {
-      id: 'access-bank',
-      name: 'Access Bank',
-      logo: '/images/company-logos/access-bank.svg',
-      location: 'Nigeria',
-      gradient: 'from-orange-500/10 to-orange-600/10'
-    },
-    {
-      id: 'capitec',
-      name: 'Capitec Bank',
-      logo: '/images/company-logos/capitec.svg',
-      location: 'South Africa',
-      gradient: 'from-blue-500/10 to-blue-600/10'
-    },
-    {
-      id: 'amazon',
-      name: 'Amazon',
-      logo: '/images/company-logos/amazon.svg',
-      location: 'Global',
-      gradient: 'from-yellow-500/10 to-orange-500/10'
-    }
-  ];
+  useEffect(() => {
+    // Load companies from database
+    const allCompanies = loadAllCompanies();
+    setCompanies(allCompanies);
+    setFilteredCompanies(allCompanies);
+  }, []);
 
-  const filteredCompanies = companies.filter(company =>
-    company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    company.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    // Filter companies based on search query
+    const filtered = filterCompanies(companies, searchQuery);
+    setFilteredCompanies(filtered);
+  }, [searchQuery, companies]);
+
+  // Generate gradient based on company index
+  const getGradient = (index: number) => {
+    const gradients = [
+      'from-green-500/10 to-green-600/10',
+      'from-red-500/10 to-red-600/10',
+      'from-orange-500/10 to-orange-600/10',
+      'from-blue-500/10 to-blue-600/10',
+      'from-yellow-500/10 to-orange-500/10',
+      'from-purple-500/10 to-purple-600/10',
+      'from-pink-500/10 to-pink-600/10',
+      'from-indigo-500/10 to-indigo-600/10',
+    ];
+    return gradients[index % gradients.length];
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -101,19 +81,23 @@ const CompanyDirectory = () => {
 
         {/* Companies Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredCompanies.map((company) => (
+          {filteredCompanies.map((company, index) => (
             <Link
-              key={company.id}
-              to={`/company/${company.id}`}
+              key={company.slug}
+              to={`/company/${company.slug}`}
               className="group"
             >
               <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <CardContent className="p-6">
-                  <div className={`aspect-square bg-gradient-to-br ${company.gradient} rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden`}>
+                  <div className={`aspect-square bg-gradient-to-br ${getGradient(index)} rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform overflow-hidden`}>
                     <img
-                      src={company.logo}
+                      src={company.logo_url}
                       alt={`${company.name} logo`}
                       className="w-full h-full object-contain p-4"
+                      onError={(e) => {
+                        // Fallback to placeholder if logo doesn't exist
+                        e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="16" text-anchor="middle" x="50">' + company.name.substring(0, 2) + '</text></svg>';
+                      }}
                     />
                   </div>
                   <h3 className="font-semibold text-lg text-foreground text-center mb-2">
