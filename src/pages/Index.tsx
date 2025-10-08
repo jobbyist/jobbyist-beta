@@ -15,6 +15,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import Footer from '@/components/Footer';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
 import { LatestStories } from '@/components/LatestStories';
+import { loadAllJobs, filterJobs, getAllSkills } from '@/utils/loadJobs';
 
 interface AudioEpisode {
   id: string;
@@ -72,25 +73,16 @@ const Index = () => {
 
   const fetchJobs = useCallback(async () => {
     try {
-      const { data, error } = await supabase
-        .from('jobs')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
+      // Load jobs from local JSON database
+      const allJobs = loadAllJobs();
       
-      setJobs(data || []);
+      setJobs(allJobs);
       
       // Extract unique skills
-      const skills = new Set<string>();
-      (data || []).forEach(job => {
-        job.skills_required?.forEach((skill: string) => skills.add(skill));
-      });
-      setAvailableSkills(Array.from(skills).sort());
+      setAvailableSkills(getAllSkills(allJobs));
       
     } catch (error) {
-      console.error('Error fetching jobs:', error);
+      console.error('Error loading jobs:', error);
       toast({
         title: "Error",
         description: "Failed to load jobs",
@@ -203,47 +195,11 @@ const Index = () => {
   }, [user, fetchSavedJobs]);
 
   useEffect(() => {
-    let filtered = [...jobs];
-
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      filtered = filtered.filter(job =>
-        job.title.toLowerCase().includes(searchLower) ||
-        job.company.toLowerCase().includes(searchLower) ||
-        job.description.toLowerCase().includes(searchLower)
-      );
-    }
-
-    if (filters.location) {
-      filtered = filtered.filter(job =>
-        job.location.toLowerCase().includes(filters.location.toLowerCase())
-      );
-    }
-
-    if (filters.jobType) {
-      filtered = filtered.filter(job => job.job_type === filters.jobType);
-    }
-
-    if (filters.experienceLevel) {
-      filtered = filtered.filter(job => job.experience_level === filters.experienceLevel);
-    }
-
-    if (filters.remoteOnly) {
-      filtered = filtered.filter(job => job.remote_allowed);
-    }
-
-    if (filters.skills.length > 0) {
-      filtered = filtered.filter(job =>
-        filters.skills.some(skill =>
-          job.skills_required?.includes(skill)
-        )
-      );
-    }
-
+    // Use the filterJobs utility to filter jobs
+    const filtered = filterJobs(jobs, filters);
+    
     // Limit to 25 most recent jobs for homepage
-    filtered = filtered.slice(0, 25);
-
-    setFilteredJobs(filtered);
+    setFilteredJobs(filtered.slice(0, 25));
   }, [jobs, filters]);
 
   if (loading) {
