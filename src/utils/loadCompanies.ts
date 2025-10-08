@@ -1,4 +1,4 @@
-import companiesData from '@/database/companies.json';
+import companiesData from '../../database/companies.json';
 
 export interface Company {
   name: string;
