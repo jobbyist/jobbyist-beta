@@ -7,6 +7,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { AuthModal } from '@/components/AuthModal';
+import { Link } from 'react-router-dom';
+import { getCompanyIdFromName } from '@/utils/loadCompanies';
 
 interface Job {
   id: string;
@@ -142,7 +144,13 @@ export const JobCard = ({ job, isSaved = false, onSaveToggle }: JobCardProps) =>
             <h3 className="text-lg font-semibold text-foreground mb-1">{job.title}</h3>
             <div className="flex items-center gap-2 text-muted-foreground mb-2">
               <Building2 className="h-4 w-4" />
-              <span>{job.company}</span>
+              <Link 
+                to={`/company/${getCompanyIdFromName(job.company)}`}
+                className="hover:text-primary hover:underline transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {job.company}
+              </Link>
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
