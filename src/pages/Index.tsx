@@ -16,6 +16,7 @@ import Footer from '@/components/Footer';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
 import { LatestStories } from '@/components/LatestStories';
 import { loadAllJobs, filterJobs, getAllSkills } from '@/utils/loadJobs';
+import { generateJobSchema } from '@/utils/google-jobs-schema';
 
 interface AudioEpisode {
   id: string;
@@ -201,6 +202,32 @@ const Index = () => {
     // Limit to 25 most recent jobs for homepage
     setFilteredJobs(filtered.slice(0, 25));
   }, [jobs, filters]);
+
+  // Add structured data for Google Jobs
+  useEffect(() => {
+    if (filteredJobs.length === 0) return;
+    
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'google-jobs-schema';
+    script.text = JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "ItemList",
+      "itemListElement": filteredJobs.slice(0, 10).map((job, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": generateJobSchema(job)
+      }))
+    });
+    document.head.appendChild(script);
+
+    return () => {
+      const existingScript = document.getElementById('google-jobs-schema');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, [filteredJobs]);
 
   if (loading) {
     return (
