@@ -5,6 +5,7 @@ import { Search, Building2 } from 'lucide-react';
 import { useState } from 'react';
 import RecruitmentSuiteModal from '@/components/RecruitmentSuiteModal';
 import { loadAllCompanies, filterCompanies } from '@/utils/loadCompanies';
+import { FloatingHomeButton } from '@/components/FloatingHomeButton';
 
 const CompanyDirectory = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -113,6 +114,9 @@ const CompanyDirectory = () => {
 
       {/* Recruitment Suite Modal */}
       <RecruitmentSuiteModal open={isRecruitmentModalOpen} onOpenChange={setIsRecruitmentModalOpen} />
+      
+      {/* Floating Home Button */}
+      <FloatingHomeButton />
     </div>
   );
 };

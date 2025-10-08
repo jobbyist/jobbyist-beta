@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/pagination';
 import { Search, MapPin, Briefcase } from 'lucide-react';
 import { loadAllJobs, filterJobs, getAllSkills, paginateJobs } from '@/utils/loadJobs';
+import { FloatingHomeButton } from '@/components/FloatingHomeButton';
 
 interface Job {
   id: string;
@@ -355,6 +356,9 @@ const Jobs = () => {
           </div>
         </div>
       </div>
+      
+      {/* Floating Home Button */}
+      <FloatingHomeButton />
     </div>
   );
 };
