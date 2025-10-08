@@ -18,6 +18,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Search, MapPin, Briefcase } from 'lucide-react';
+import { loadAllJobs, filterJobs, getAllSkills, paginateJobs } from '@/utils/loadJobs';
 
 interface Job {
   id: string;
@@ -80,40 +81,17 @@ const Jobs = () => {
 
   const fetchJobs = useCallback(async () => {
     try {
-      // Get total count first
-      const { count } = await supabase
-        .from('jobs')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_active', true);
+      // Load all jobs from local JSON database
+      const allJobs = loadAllJobs();
       
-      setTotalJobs(count || 0);
+      setTotalJobs(allJobs.length);
+      setJobs(allJobs);
       
-      // Then get paginated results
-      const { data, error } = await supabase
-        .from('jobs')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false })
-        .range((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage - 1);
-
-      if (error) throw error;
-      
-      setJobs(data || []);
-      
-      // Extract unique skills from all jobs (we'll need to fetch skills separately)
-      const { data: skillsData } = await supabase
-        .from('jobs')
-        .select('skills_required')
-        .eq('is_active', true);
-      
-      const skills = new Set<string>();
-      (skillsData || []).forEach(job => {
-        job.skills_required?.forEach((skill: string) => skills.add(skill));
-      });
-      setAvailableSkills(Array.from(skills).sort());
+      // Extract unique skills
+      setAvailableSkills(getAllSkills(allJobs));
       
     } catch (error) {
-      console.error('Error fetching jobs:', error);
+      console.error('Error loading jobs:', error);
       toast({
         title: "Error",
         description: "Failed to load jobs",
@@ -122,51 +100,20 @@ const Jobs = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, toast]);
+  }, [toast]);
 
   const applyFilters = useCallback(() => {
-    let filtered = jobs;
-
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      filtered = filtered.filter(job =>
-        job.title.toLowerCase().includes(searchTerm) ||
-        job.company.toLowerCase().includes(searchTerm) ||
-        job.description.toLowerCase().includes(searchTerm) ||
-        job.skills_required?.some(skill => skill.toLowerCase().includes(searchTerm))
-      );
-    }
-
-    if (filters.location) {
-      filtered = filtered.filter(job =>
-        job.location.toLowerCase().includes(filters.location.toLowerCase())
-      );
-    }
-
-    if (filters.jobType) {
-      filtered = filtered.filter(job => job.job_type === filters.jobType);
-    }
-
-    if (filters.experienceLevel) {
-      filtered = filtered.filter(job => job.experience_level === filters.experienceLevel);
-    }
-
-    if (filters.remoteOnly) {
-      filtered = filtered.filter(job => job.remote_allowed);
-    }
-
-    if (filters.skills.length > 0) {
-      filtered = filtered.filter(job =>
-        filters.skills.some(skill =>
-          job.skills_required?.some(jobSkill =>
-            jobSkill.toLowerCase().includes(skill.toLowerCase())
-          )
-        )
-      );
-    }
-
-    setFilteredJobs(filtered);
-  }, [jobs, filters]);
+    // Use the filterJobs utility to filter jobs
+    const filtered = filterJobs(jobs, filters);
+    
+    // Update total jobs count for pagination
+    setTotalJobs(filtered.length);
+    
+    // Apply pagination
+    const paginated = paginateJobs(filtered, currentPage, jobsPerPage);
+    
+    setFilteredJobs(paginated);
+  }, [jobs, filters, currentPage]);
 
   useEffect(() => {
     fetchJobs();
