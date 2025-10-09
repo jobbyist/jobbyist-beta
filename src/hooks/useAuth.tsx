@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       toast({
         title: "Success",
-        description: "Please check your email to confirm your account",
+        description: "Account created successfully! You can now log in.",
       });
     }
 
